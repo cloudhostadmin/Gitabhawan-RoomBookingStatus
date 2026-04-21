@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Room Booking Status — गीता भवन</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg         : #F5F1EA;
+  --surface    : #FFFFFF;
+  --surface2   : #EEE9DF;
+  --border     : #DDD7CC;
+  --border2    : #C4BDB0;
+  --text1      : #1A1612;
+  --text2      : #6B6158;
+  --text3      : #9C9288;
+  --accent     : #B5451B;
+  --accent-bg  : #FDF0EB;
+  --accent-txt : #8B3214;
+  --saffron    : #E07B1A;
+  --green      : #166534;
+  --green-bg   : #DCFCE7;
+  --amber      : #92400E;
+  --amber-bg   : #FEF3C7;
+  --red        : #991B1B;
+  --red-bg     : #FEE2E2;
+  --radius-sm  : 8px;
+  --radius-md  : 12px;
+  --radius-lg  : 18px;
+  --shadow     : 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+}
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text1);
+  min-height: 100vh;
+}
+/* ── TEMPLE HEADER BAND ───────────────────────────────────── */
+.temple-band {
+  background: linear-gradient(135deg, #8B3214 0%, #B5451B 50%, #C4571F 100%);
+  padding: 1.4rem 1.5rem 1.2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.temple-band::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0px,
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px,
+    transparent 40px
+  );
+  pointer-events: none;
+}
+.temple-om {
+  font-size: 1.5rem;
+  color: rgba(255,200,120,0.9);
+  margin-bottom: 0.2rem;
+  display: block;
+}
+.temple-name {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #FFF8E8;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+}
+.temple-sub {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 0.82rem;
+  color: rgba(255,220,160,0.85);
+  margin-top: 0.25rem;
+  letter-spacing: 0.02em;
+}
+.divider-flowers {
+  font-size: 0.85rem;
+  color: rgba(255,200,100,0.6);
+  margin-top: 0.5rem;
+  letter-spacing: 0.3em;
+}
+/* ── PAGE WRAP ────────────────────────────────────────────── */
+.page-wrap {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem 4rem;
+}
+/* ── PAGE TITLE ───────────────────────────────────────────── */
+.page-title-block {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+.page-icon {
+  width: 52px; height: 52px;
+  background: var(--accent-bg);
+  border: 1.5px solid rgba(181,69,27,0.15);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 0.9rem;
+}
+.page-icon svg { width: 24px; height: 24px; }
+.page-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text1);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+.page-desc {
+  font-size: 0.875rem;
+  color: var(--text2);
+}
+/* ── SEARCH CARD ──────────────────────────────────────────── */
+.search-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+.search-card label {
+  display: block;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 0.55rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text2);
+  font-family: 'DM Mono', monospace;
+  white-space: nowrap;
+  user-select: none;
+}
+.phone-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 14px;
+  font-size: 1.05rem;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text1);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.phone-input::placeholder { font-weight: 400; letter-spacing: 0; color: var(--text3); font-family: 'DM Sans', sans-serif; }
+.phone-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(181,69,27,0.12);
+}
+.btn-check {
+  height: 48px;
+  padding: 0 22px;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-check:hover { background: #8B3214; }
+.btn-check:active { transform: scale(0.97); }
+.btn-check:disabled { background: var(--border2); cursor: not-allowed; transform: none; }
+.err-msg {
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  color: var(--red);
+  display: none;
+}
+.auto-banner {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--accent-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--accent-txt);
+  display: none;
+}
+/* ── STATE AREA ───────────────────────────────────────────── */
+.idle-state {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.idle-state .idle-icon { font-size: 3.5rem; margin-bottom: 0; }
+.idle-state .idle-title { font-size: 0.9375rem; font-weight: 500; color: var(--text1); margin-bottom: 0.3rem; }
+.idle-state .idle-sub { font-size: 0.85rem; color: var(--text2); line-height: 1.55; }
+.loading-state {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+.spinner {
+  width: 30px; height: 30px;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-state p { font-size: 0.875rem; color: var(--text2); }
+/* ── RESULTS META ─────────────────────────────────────────── */
+.results-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 2px;
+}
+.found-label { font-size: 0.875rem; color: var(--text2); }
+.found-label strong { color: var(--text1); }
+.btn-reset {
+  font-size: 0.8125rem;
+  color: var(--text3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.12s, color 0.12s;
+}
+.btn-reset:hover { background: var(--surface2); color: var(--text2); }
+/* ── BOOKING CARD ─────────────────────────────────────────── */
+.booking-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: slideIn 0.22s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* coloured left accent bar */
+.booking-card.status-confirmed { border-left: 4px solid #16a34a; }
+.booking-card.status-pending   { border-left: 4px solid #d97706; }
+.booking-card.status-cancelled { border-left: 4px solid #dc2626; }
+.booking-card.status-waitlist  { border-left: 4px solid #7c3aed; }
+.booking-card.status-other     { border-left: 4px solid #9C9288; }
+.card-inner { padding: 1.1rem 1.2rem; }
+/* top row */
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.card-name { font-size: 1.0rem; font-weight: 600; color: var(--text1); }
+.card-ref-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+}
+.ref-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  font-weight: 500;
+}
+.ref-value {
+  font-size: 0.8rem;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  color: var(--text2);
+  background: var(--surface2);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.ref-value.ref-na {
+  color: var(--text3);
+  font-style: italic;
+  font-family: 'DM Sans', sans-serif;
+}
+/* badge */
+.badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.badge-confirmed { background: #DCFCE7; color: #15803D; }
+.badge-pending   { background: #FEF3C7; color: #B45309; }
+.badge-cancelled { background: #FEE2E2; color: #B91C1C; }
+.badge-waitlist  { background: #EDE9FE; color: #6D28D9; }
+.badge-other     { background: var(--surface2); color: var(--text2); }
+/* divider */
+.card-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 -1.2rem 0.9rem;
+  position: relative;
+  left: -1.2rem;
+  width: calc(100% + 2.4rem);
+}
+/* date grid */
+.date-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.date-box {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+}
+.date-box .dlabel {
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text3);
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+.date-box .dval {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text1);
+}
+/* stay duration pill */
+.stay-duration {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text2);
+  margin-top: 2px;
+}
+.stay-duration svg { flex-shrink: 0; }
+.nights-pill {
+  background: var(--accent-bg);
+  color: var(--accent-txt);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+/* booking status row */
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+}
+.status-row-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text2);
+}
+/* not found */
+.not-found-card {
+  background: var(--surface);
+  border: 1px solid #FECACA;
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.not-found-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.not-found-title { font-size: 1rem; font-weight: 600; color: var(--red); margin-bottom: 6px; }
+.not-found-sub { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
+.not-found-num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text1); }
+/* error */
+.error-card {
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+}
+.error-card p { font-size: 0.875rem; color: #92400E; }
+</style>
+</head>
+<body>
+<!-- TEMPLE HEADER BAND -->
+<div class="temple-band">
+  <div class="temple-name">गीता भवन,ऋषिकेश</div>
+  <div class="temple-sub">Gita Bhawan,Rishikesh</div>
+  <div class="divider-flowers"></div>
+</div>
+<div class="page-wrap">
+  <!-- PAGE TITLE -->
+  <div class="page-title-block">
+    <div class="page-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#B5451B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="M3 9h18M9 9v12M3 15h6"/>
+        <rect x="13" y="13" width="4" height="5" rx="0.5"/>
+      </svg>
+    </div>
+    <div class="page-title">Room Booking Status</div>
+    <div class="page-desc">Check your reservation using your registered mobile number</div>
+  </div>
+  <!-- SEARCH CARD -->
+  <div class="search-card">
+    <label for="phoneInput">Registered Mobile Number</label>
+    <div class="input-row">
+      <div class="prefix">+91</div>
+      <input
+        type="tel"
+        id="phoneInput"
+        class="phone-input"
+        maxlength="10"
+        placeholder="Enter 10-digit number"
+        inputmode="numeric"
+        autocomplete="tel"
+      />
+      <button class="btn-check" id="checkBtn" onclick="checkBooking()">Check</button>
+    </div>
+    <div class="err-msg" id="errMsg"></div>
+    <div class="auto-banner" id="autoBanner">↻ Auto-filled from your last session — checking now…</div>
+  </div>
+  <!-- STATE AREA -->
+  <div id="stateArea">
+    <div class="idle-state">
+      <div class="idle-icon"></div>
+      <div class="idle-title">look up your booking</div>
+      <div class="idle-sub">Enter the mobile number used while making the reservation and tap <strong>Check</strong>.</div>
+    </div>
+  </div>
+</div><!-- /page-wrap -->
+<script>
+// ─────────────────────────────────────────────────────────────
+//  CONFIGURATION
+// ─────────────────────────────────────────────────────────────
+var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzYOnTHx6vCEEJB9wPTLM0tYtZo2KuWBD2kC5G4yEhK3ZdeysRypYNdvcHFmQFWakmcxA/exec";
+var STORAGE_KEY = "bsc_last_phone";
+
+// Auto-fill on load
+window.addEventListener("DOMContentLoaded", function () {
+  var saved = localStorage.getItem(STORAGE_KEY);
+  var inp   = document.getElementById("phoneInput");
+  if (saved && /^[0-9]{10}$/.test(saved)) {
+    inp.value = saved;
+    document.getElementById("autoBanner").style.display = "block";
+    setTimeout(function () { checkBooking(true); }, 800);
+  }
+});
+
+document.getElementById("phoneInput").addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "").slice(0, 10);
+});
+document.getElementById("phoneInput").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") checkBooking();
+});
+
+// ─────────────────────────────────────────────────────────────
+//  HELPER: Check if a booking's departure is in the future
+//  Returns true  → show this booking (departure >= today)
+//  Returns false → hide this booking (departure < today)
+// ─────────────────────────────────────────────────────────────
+function isFutureOrActiveBooking(booking) {
+  var depStr = (booking.departure || "").toString().trim();
+  if (!depStr || depStr === "—" || depStr === "-") {
+    // No departure date — show it to be safe
+    return true;
+  }
+
+  var depDate = new Date(depStr);
+  if (isNaN(depDate.getTime())) {
+    // Unparseable date — show it to be safe
+    return true;
+  }
+
+  // Compare only the date part (strip time component from both)
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  depDate.setHours(0, 0, 0, 0);
+
+  // Show only if departure date is today or in the future
+  return depDate >= today;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  MAIN CHECK FUNCTION
+// ─────────────────────────────────────────────────────────────
+function checkBooking(isAuto) {
+  var phone = document.getElementById("phoneInput").value.trim();
+  var errEl = document.getElementById("errMsg");
+  errEl.style.display = "none";
+  if (!/^[0-9]{10}$/.test(phone)) {
+    errEl.textContent   = "Please enter a valid 10-digit mobile number.";
+    errEl.style.display = "block";
+    return;
+  }
+  localStorage.setItem(STORAGE_KEY, phone);
+  if (WEB_APP_URL.indexOf("PASTE_") === 0) {
+    renderDemo(phone);
+    return;
+  }
+  showLoading();
+  document.getElementById("checkBtn").disabled = true;
+  fetch(WEB_APP_URL + "?phone=" + encodeURIComponent(phone))
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      document.getElementById("checkBtn").disabled = false;
+      if (!data.success) { showError(data.error || "Could not fetch booking data."); return; }
+      renderResults(phone, data);
+    })
+    .catch(function () {
+      document.getElementById("checkBtn").disabled = false;
+      showError("Network error. Please check your connection and try again.");
+    });
+}
+
+// ─────────────────────────────────────────────────────────────
+//  RENDER FUNCTIONS
+// ─────────────────────────────────────────────────────────────
+function showLoading() {
+  document.getElementById("stateArea").innerHTML =
+    '<div class="loading-state"><div class="spinner"></div><p>Searching booking records…</p></div>';
+}
+function showError(msg) {
+  document.getElementById("stateArea").innerHTML =
+    '<div class="error-card"><p>⚠️ ' + escHtml(msg) + '</p></div>';
+}
+
+function renderResults(phone, data) {
+  // Merge all bookings from all sources into a single flat list
+  var allBookings = [];
+  (data.messagesToSend || []).forEach(function(b) { allBookings.push(b); });
+  (data.callCentre     || []).forEach(function(b) { allBookings.push(b); });
+  (data.whatsapp       || []).forEach(function(b) { allBookings.push(b); });
+
+  // ── KEY CHANGE: Filter out bookings whose departure date has already passed ──
+  var upcomingBookings = allBookings.filter(function(b) {
+    return isFutureOrActiveBooking(b);
+  });
+
+  if (upcomingBookings.length === 0) {
+    // Check if there were bookings at all (to show a more helpful message)
+    var hadPastBookings = allBookings.length > 0;
+    document.getElementById("stateArea").innerHTML =
+      '<div class="not-found-card">' +
+        '<div class="not-found-icon">🔍</div>' +
+        '<div class="not-found-title">' + (hadPastBookings ? 'No Upcoming Bookings' : 'No Booking Found') + '</div>' +
+        '<div class="not-found-sub">' +
+          (hadPastBookings
+            ? 'All reservations linked to <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span> have already checked out.<br>For a new reservation, click on this link <a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" style="color:#B5451B;font-weight:600;text-decoration:underline;">Book Now</a>.'
+            : 'No reservation is linked to <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span>.<br>Please verify the number and try again, or contact the front desk.'
+          ) +
+        '</div>' +
+      '</div>';
+    return;
+  }
+
+  var total = upcomingBookings.length;
+  var html  = '<div class="results-meta">' +
+    '<div class="found-label">Found <strong>' + total + '&nbsp;upcoming booking' + (total > 1 ? 's' : '') + '</strong> for +91&nbsp;' + escHtml(phone) + '</div>' +
+    '<button class="btn-reset" onclick="resetPage()">✕&nbsp;Clear</button>' +
+    '</div>';
+
+  upcomingBookings.forEach(function(b) { html += renderCard(b); });
+  document.getElementById("stateArea").innerHTML = html;
+}
+
+function renderCard(b) {
+  var status     = (b.status || "").trim();
+  var statusLow  = status.toLowerCase();
+  var cls        = cardStatusClass(statusLow);
+  var badgeCls   = badgeClass(statusLow);
+  var displayStatus = status || "Unknown";
+
+  // Reference number — show only when available
+  var refHtml;
+  var refVal = (b.ref || "").toString().trim();
+  if (refVal && refVal !== "" && refVal !== "—" && refVal !== "-") {
+    refHtml = '<span class="ref-label">Ref</span><span class="ref-value">' + escHtml(refVal) + '</span>';
+  } else {
+    refHtml = '<span class="ref-label">Ref</span><span class="ref-value ref-na">Not assigned</span>';
+  }
+
+  // Stay duration
+  var nightsHtml = "";
+  var arrDate = b.arrival   ? new Date(b.arrival)   : null;
+  var depDate = b.departure ? new Date(b.departure) : null;
+  if (arrDate && depDate && !isNaN(arrDate) && !isNaN(depDate) && depDate > arrDate) {
+    var nights = Math.round((depDate - arrDate) / (1000 * 60 * 60 * 24));
+    nightsHtml =
+      '<div class="stay-duration">' +
+        '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 13V5a1 1 0 011-1h10a1 1 0 011 1v8" stroke="#9C9288" stroke-width="1.3" stroke-linecap="round"/><path d="M1 13h14" stroke="#9C9288" stroke-width="1.3" stroke-linecap="round"/><path d="M6 12V8h4v4" stroke="#9C9288" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '<span>Duration</span>' +
+        '<span class="nights-pill">' + nights + '&nbsp;night' + (nights > 1 ? 's' : '') + '</span>' +
+      '</div>';
+  }
+
+  return '<div class="booking-card ' + cls + '">' +
+    '<div class="card-inner">' +
+      '<div class="card-top">' +
+        '<div>' +
+          '<div class="card-name">' + escHtml(b.name || '\u2014') + '</div>' +
+          '<div class="card-ref-row">' + refHtml + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="card-divider"></div>' +
+      '<div class="date-grid">' +
+        '<div class="date-box"><div class="dlabel">Arrival</div><div class="dval">' + fmtDate(b.arrival) + '</div></div>' +
+        '<div class="date-box"><div class="dlabel">Departure</div><div class="dval">' + fmtDate(b.departure) + '</div></div>' +
+      '</div>' +
+      nightsHtml +
+      '<div class="status-row">' +
+        '<span class="status-row-label">Booking Status</span>' +
+        '<span class="badge ' + badgeCls + '">' + escHtml(displayStatus) + '</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// ─────────────────────────────────────────────────────────────
+//  DEMO MODE
+// ─────────────────────────────────────────────────────────────
+function renderDemo(phone) {
+  var lastDigit = parseInt(phone.slice(-1));
+  var found     = lastDigit % 2 !== 0;
+
+  // Demo uses future dates so they pass the filter
+  var today     = new Date();
+  var arr1      = new Date(today); arr1.setDate(today.getDate() + 10);
+  var dep1      = new Date(today); dep1.setDate(today.getDate() + 13);
+  var arr2      = new Date(today); arr2.setDate(today.getDate() + 30);
+  var dep2      = new Date(today); dep2.setDate(today.getDate() + 32);
+
+  function isoDate(d) {
+    return d.getFullYear() + "-" + pad2(d.getMonth()+1) + "-" + pad2(d.getDate());
+  }
+  function pad2(n) { return n < 10 ? "0"+n : n; }
+
+  var fakeData  = {
+    success       : true,
+    messagesToSend: found ? [{ ref: "GB-" + phone.slice(-4), name: "Ramesh Kumar", arrival: isoDate(arr1), departure: isoDate(dep1), status: "Confirmed" }] : [],
+    callCentre    : found ? [{ ref: "",                       name: "Ramesh Kumar", arrival: isoDate(arr2), departure: isoDate(dep2), status: "Waitlist"  }] : [],
+    whatsapp      : []
+  };
+  renderResults(phone, fakeData);
+  var firstCard = document.querySelector(".booking-card");
+  if (firstCard) {
+    var notice = document.createElement("div");
+    notice.style.cssText = "background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;font-size:0.8rem;color:#92400E;margin-bottom:12px;";
+    notice.textContent = "⚠️ Demo mode: paste your Web App URL in WEB_APP_URL to connect real data.";
+    document.getElementById("stateArea").insertBefore(notice, document.querySelector(".results-meta").nextSibling);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────────────────────
+function resetPage() {
+  document.getElementById("phoneInput").value            = "";
+  document.getElementById("autoBanner").style.display   = "none";
+  localStorage.removeItem(STORAGE_KEY);
+  document.getElementById("stateArea").innerHTML =
+    '<div class="idle-state">' +
+      '<div class="idle-icon"></div>' +
+    '</div>';
+}
+function cardStatusClass(s) {
+  if (s.includes("confirm") || s.includes("success") || s.includes("approved")) return "status-confirmed";
+  if (s.includes("cancel")  || s.includes("reject")  || s.includes("declined")) return "status-cancelled";
+  if (s.includes("wait"))                                                         return "status-waitlist";
+  if (s.includes("pending") || s.includes("process"))                            return "status-pending";
+  return "status-other";
+}
+function badgeClass(s) {
+  if (s.includes("confirm") || s.includes("success") || s.includes("approved")) return "badge-confirmed";
+  if (s.includes("cancel")  || s.includes("reject")  || s.includes("declined")) return "badge-cancelled";
+  if (s.includes("wait"))                                                         return "badge-waitlist";
+  if (s.includes("pending") || s.includes("process"))                            return "badge-pending";
+  return "badge-other";
+}
+function fmtDate(d) {
+  if (!d) return "—";
+  var p = new Date(d);
+  if (isNaN(p)) return d;
+  return p.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+</script>
+</body>
+</html>

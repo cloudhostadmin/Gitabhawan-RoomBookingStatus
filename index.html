@@ -180,17 +180,46 @@ body {
   display: flex;
   gap: 8px;
   align-items: stretch;
+  flex-wrap: wrap;
+}
+.input-row .prefix {
+  flex-shrink: 0;
+}
+.input-row .text-input {
+  flex: 1;
+  min-width: 120px;
+}
+.input-row .btn-inline {
+  flex-shrink: 0;
+}
+@media (max-width: 400px) {
+  .input-row {
+    flex-wrap: wrap;
+  }
+  .input-row .prefix {
+    flex: 0 0 auto;
+  }
+  .input-row .text-input {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .input-row .btn-inline {
+    width: 100%;
+    flex: 1 1 100%;
+    margin-top: 2px;
+  }
 }
 .prefix {
   display: flex; align-items: center;
-  padding: 0 12px;
+  padding: 0 10px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 0.9rem; font-weight: 500;
+  font-size: 0.85rem; font-weight: 500;
   color: var(--text2);
   font-family: 'DM Mono', monospace;
   white-space: nowrap; user-select: none;
+  flex-shrink: 0;
 }
 .text-input {
   flex: 1;
@@ -213,14 +242,15 @@ body {
 /* OTP boxes */
 .otp-row {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   justify-content: center;
   margin-bottom: 1rem;
 }
 .otp-box {
-  width: 48px; height: 56px;
+  width: clamp(38px, 13vw, 48px);
+  height: clamp(46px, 14vw, 56px);
   text-align: center;
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
   font-family: 'DM Mono', monospace;
   font-weight: 700;
   border: 2px solid var(--border);
@@ -254,16 +284,17 @@ body {
 .btn-primary:disabled { background: var(--border2); cursor: not-allowed; transform: none; }
 .btn-inline {
   height: 48px;
-  padding: 0 18px;
+  padding: 0 14px;
   background: var(--accent);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.15s, transform 0.1s;
 }
 .btn-inline:hover  { background: #8B3214; }
@@ -442,6 +473,63 @@ body {
 
 /* hide/show utility */
 .hidden { display: none !important; }
+
+/* ── RESPONSIVE MOBILE ────────────────────────────────────── */
+@media (max-width: 480px) {
+  .page-wrap {
+    padding: 1.25rem 0.85rem 3rem;
+  }
+  .card {
+    padding: 1.1rem 1rem;
+  }
+  .card-inner {
+    padding: 0.9rem 1rem;
+  }
+  .page-title { font-size: 1.15rem; }
+  .temple-name { font-size: 1.2rem; }
+  .temple-sub  { font-size: 0.78rem; }
+  .verified-banner {
+    font-size: 0.78rem;
+    padding: 8px 10px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .not-found-card,
+  .not-registered-card {
+    padding: 1.5rem 1rem;
+  }
+  .not-found-sub {
+    font-size: 0.82rem;
+  }
+  .date-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .hindi-msg-box {
+    font-size: 0.8rem;
+  }
+  .step-line {
+    max-width: 40px;
+  }
+  .otp-row {
+    gap: 5px;
+  }
+}
+
+/* ── BOOK NOW LINK — always visible ──────────────────────── */
+.book-now-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none !important;
+  transition: background 0.15s;
+}
+.book-now-link:hover { background: #8B3214; }
 </style>
 </head>
 <body>
@@ -854,8 +942,8 @@ function renderResults(phone, data) {
         '<div class="not-found-title">' + (hadPast ? 'No Upcoming Bookings' : 'No Booking Found') + '</div>' +
         '<div class="not-found-sub">' +
           (hadPast
-            ? 'All reservations for <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span> have already checked out.<br>For a new reservation, click on this link <a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" style="color:#B5451B;font-weight:600;text-decoration:underline;">Book Now</a>.'
-            : 'No reservation is linked to <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span>.<br>Please verify the number and try again, or contact the front desk.<br><br>To make a new booking, click here &rarr; <a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" style="color:#B5451B;font-weight:600;text-decoration:underline;">Book Now</a>.'
+            ? 'All reservations for <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span> have already checked out.<br><br><a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" class="book-now-link">📅 Book Now</a>'
+            : 'No reservation is linked to <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span>.<br>Please verify the number and try again, or contact the front desk.<br><br><a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" class="book-now-link">📅 Book Now</a>'
           ) +
         '</div>' +
       '</div>';

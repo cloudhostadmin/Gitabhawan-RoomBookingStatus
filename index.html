@@ -39,6 +39,7 @@ body {
   color: var(--text1);
   min-height: 100vh;
 }
+
 /* ── TEMPLE HEADER BAND ───────────────────────────────────── */
 .temple-band {
   background: linear-gradient(135deg, #8B3214 0%, #B5451B 50%, #C4571F 100%);
@@ -51,20 +52,8 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255,255,255,0.03) 0px,
-    rgba(255,255,255,0.03) 1px,
-    transparent 1px,
-    transparent 40px
-  );
+  background: repeating-linear-gradient(90deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 40px);
   pointer-events: none;
-}
-.temple-om {
-  font-size: 1.5rem;
-  color: rgba(255,200,120,0.9);
-  margin-bottom: 0.2rem;
-  display: block;
 }
 .temple-name {
   font-family: 'Noto Serif Devanagari', serif;
@@ -88,12 +77,14 @@ body {
   margin-top: 0.5rem;
   letter-spacing: 0.3em;
 }
+
 /* ── PAGE WRAP ────────────────────────────────────────────── */
 .page-wrap {
   max-width: 540px;
   margin: 0 auto;
   padding: 2rem 1.2rem 4rem;
 }
+
 /* ── PAGE TITLE ───────────────────────────────────────────── */
 .page-title-block {
   text-align: center;
@@ -108,19 +99,53 @@ body {
   margin: 0 auto 0.9rem;
 }
 .page-icon svg { width: 24px; height: 24px; }
-.page-title {
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--text1);
-  letter-spacing: -0.02em;
-  margin-bottom: 0.25rem;
+.page-title { font-size: 1.35rem; font-weight: 600; color: var(--text1); letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+.page-desc  { font-size: 0.875rem; color: var(--text2); }
+
+/* ── STEP INDICATOR ───────────────────────────────────────── */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 1.5rem;
 }
-.page-desc {
-  font-size: 0.875rem;
-  color: var(--text2);
+.step-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 2px solid var(--border2);
+  background: var(--surface);
+  color: var(--text3);
+  transition: all 0.3s;
+  position: relative;
+  z-index: 1;
 }
-/* ── SEARCH CARD ──────────────────────────────────────────── */
-.search-card {
+.step-dot.active { border-color: var(--accent); background: var(--accent); color: #fff; }
+.step-dot.done   { border-color: #16a34a; background: #16a34a; color: #fff; }
+.step-line {
+  flex: 1;
+  max-width: 60px;
+  height: 2px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.step-line.done { background: #16a34a; }
+.step-label {
+  font-size: 0.68rem;
+  text-align: center;
+  color: var(--text3);
+  margin-top: 4px;
+  font-weight: 500;
+}
+.step-label.active { color: var(--accent); }
+.step-label.done   { color: #16a34a; }
+.step-wrap { display: flex; flex-direction: column; align-items: center; }
+
+/* ── CARDS ────────────────────────────────────────────────── */
+.card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -128,7 +153,19 @@ body {
   box-shadow: var(--shadow);
   margin-bottom: 1.5rem;
 }
-.search-card label {
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text1);
+  margin-bottom: 0.25rem;
+}
+.card-subtitle {
+  font-size: 0.82rem;
+  color: var(--text2);
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+.field-label {
   display: block;
   font-size: 0.775rem;
   font-weight: 600;
@@ -137,26 +174,25 @@ body {
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
+
+/* ── INPUTS ───────────────────────────────────────────────── */
 .input-row {
   display: flex;
   gap: 8px;
   align-items: stretch;
 }
 .prefix {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   padding: 0 12px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.9rem; font-weight: 500;
   color: var(--text2);
   font-family: 'DM Mono', monospace;
-  white-space: nowrap;
-  user-select: none;
+  white-space: nowrap; user-select: none;
 }
-.phone-input {
+.text-input {
   flex: 1;
   height: 48px;
   padding: 0 14px;
@@ -171,14 +207,54 @@ body {
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-.phone-input::placeholder { font-weight: 400; letter-spacing: 0; color: var(--text3); font-family: 'DM Sans', sans-serif; }
-.phone-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(181,69,27,0.12);
+.text-input::placeholder { font-weight: 400; letter-spacing: 0; color: var(--text3); font-family: 'DM Sans', sans-serif; }
+.text-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(181,69,27,0.12); }
+
+/* OTP boxes */
+.otp-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
-.btn-check {
+.otp-box {
+  width: 48px; height: 56px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-family: 'DM Mono', monospace;
+  font-weight: 700;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text1);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  caret-color: var(--accent);
+}
+.otp-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(181,69,27,0.12); }
+.otp-box.filled { border-color: var(--accent); background: var(--accent-bg); }
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
   height: 48px;
-  padding: 0 22px;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+.btn-primary:hover  { background: #8B3214; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { background: var(--border2); cursor: not-allowed; transform: none; }
+.btn-inline {
+  height: 48px;
+  padding: 0 18px;
   background: var(--accent);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
@@ -190,40 +266,67 @@ body {
   white-space: nowrap;
   transition: background 0.15s, transform 0.1s;
 }
-.btn-check:hover { background: #8B3214; }
-.btn-check:active { transform: scale(0.97); }
-.btn-check:disabled { background: var(--border2); cursor: not-allowed; transform: none; }
-.err-msg {
-  margin-top: 8px;
-  font-size: 0.8125rem;
-  color: var(--red);
-  display: none;
+.btn-inline:hover  { background: #8B3214; }
+.btn-inline:active { transform: scale(0.97); }
+.btn-inline:disabled { background: var(--border2); cursor: not-allowed; }
+.btn-ghost {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 4px;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.auto-banner {
+.btn-ghost:disabled { color: var(--text3); text-decoration: none; cursor: not-allowed; }
+
+/* ── MESSAGES ─────────────────────────────────────────────── */
+.err-msg  { margin-top: 8px; font-size: 0.8125rem; color: var(--red); display: none; }
+.info-msg { margin-top: 8px; font-size: 0.8125rem; color: var(--green); display: none; }
+.timer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 10px;
-  padding: 8px 12px;
-  background: var(--accent-bg);
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
-  color: var(--accent-txt);
-  display: none;
 }
-/* ── STATE AREA ───────────────────────────────────────────── */
-.idle-state {
+.timer-txt { font-size: 0.8rem; color: var(--text3); }
+.timer-txt span { font-weight: 600; color: var(--accent); font-family: 'DM Mono', monospace; }
+
+/* ── VERIFIED BANNER ──────────────────────────────────────── */
+.verified-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #DCFCE7;
+  border: 1px solid #86EFAC;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 1.2rem;
+  font-size: 0.85rem;
+  color: #15803D;
+  font-weight: 500;
+}
+.verified-banner svg { flex-shrink: 0; }
+
+/* ── NUMBER NOT FOUND ─────────────────────────────────────── */
+.not-registered-card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid #FED7AA;
   border-radius: var(--radius-lg);
-  padding: 2.5rem 1.5rem;
+  padding: 2rem 1.5rem;
   text-align: center;
   box-shadow: var(--shadow);
 }
-.idle-state .idle-icon { font-size: 3.5rem; margin-bottom: 0; }
-.idle-state .idle-title { font-size: 0.9375rem; font-weight: 500; color: var(--text1); margin-bottom: 0.3rem; }
-.idle-state .idle-sub { font-size: 0.85rem; color: var(--text2); line-height: 1.55; }
-.loading-state {
-  text-align: center;
-  padding: 2.5rem 1.5rem;
-}
+.not-registered-card .nf-icon  { font-size: 2.2rem; margin-bottom: 0.75rem; }
+.not-registered-card .nf-title { font-size: 1rem; font-weight: 600; color: var(--amber); margin-bottom: 6px; }
+.not-registered-card .nf-sub   { font-size: 0.875rem; color: var(--text2); line-height: 1.65; }
+.not-registered-card .nf-num   { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text1); }
+
+/* ── LOADING ──────────────────────────────────────────────── */
+.loading-state { text-align: center; padding: 2.5rem 1.5rem; }
 .spinner {
   width: 30px; height: 30px;
   border: 2.5px solid var(--border);
@@ -234,6 +337,7 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-state p { font-size: 0.875rem; color: var(--text2); }
+
 /* ── RESULTS META ─────────────────────────────────────────── */
 .results-meta {
   display: flex;
@@ -256,6 +360,7 @@ body {
   transition: background 0.12s, color 0.12s;
 }
 .btn-reset:hover { background: var(--surface2); color: var(--text2); }
+
 /* ── BOOKING CARD ─────────────────────────────────────────── */
 .booking-card {
   background: var(--surface);
@@ -266,18 +371,13 @@ body {
   overflow: hidden;
   animation: slideIn 0.22s ease;
 }
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(7px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-/* coloured left accent bar */
+@keyframes slideIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:translateY(0); } }
 .booking-card.status-confirmed { border-left: 4px solid #16a34a; }
 .booking-card.status-pending   { border-left: 4px solid #d97706; }
 .booking-card.status-cancelled { border-left: 4px solid #dc2626; }
 .booking-card.status-waitlist  { border-left: 4px solid #7c3aed; }
 .booking-card.status-other     { border-left: 4px solid #9C9288; }
 .card-inner { padding: 1.1rem 1.2rem; }
-/* top row */
 .card-top {
   display: flex;
   align-items: flex-start;
@@ -286,119 +386,45 @@ body {
   margin-bottom: 10px;
 }
 .card-name { font-size: 1.0rem; font-weight: 600; color: var(--text1); }
-.card-ref-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 3px;
-}
-.ref-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text3);
-  font-weight: 500;
-}
-.ref-value {
-  font-size: 0.8rem;
-  font-family: 'DM Mono', monospace;
-  font-weight: 500;
-  color: var(--text2);
-  background: var(--surface2);
-  padding: 2px 7px;
-  border-radius: 4px;
-}
-.ref-value.ref-na {
-  color: var(--text3);
-  font-style: italic;
-  font-family: 'DM Sans', sans-serif;
-}
-/* badge */
-.badge {
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 4px 11px;
-  border-radius: 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
+.card-ref-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.ref-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); font-weight: 500; }
+.ref-value { font-size: 0.8rem; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text2); background: var(--surface2); padding: 2px 7px; border-radius: 4px; }
+.ref-value.ref-na { color: var(--text3); font-style: italic; font-family: 'DM Sans', sans-serif; }
+.badge { font-size: 0.7rem; font-weight: 700; padding: 4px 11px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.04em; text-transform: uppercase; }
 .badge-confirmed { background: #DCFCE7; color: #15803D; }
 .badge-pending   { background: #FEF3C7; color: #B45309; }
 .badge-cancelled { background: #FEE2E2; color: #B91C1C; }
 .badge-waitlist  { background: #EDE9FE; color: #6D28D9; }
 .badge-other     { background: var(--surface2); color: var(--text2); }
-/* divider */
-.card-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 0 -1.2rem 0.9rem;
-  position: relative;
-  left: -1.2rem;
-  width: calc(100% + 2.4rem);
-}
-/* date grid */
-.date-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.date-box {
-  background: var(--surface2);
-  border-radius: var(--radius-sm);
-  padding: 9px 12px;
-}
-.date-box .dlabel {
-  font-size: 0.67rem;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text3);
-  margin-bottom: 3px;
-  font-weight: 500;
-}
-.date-box .dval {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text1);
-}
-/* stay duration pill */
-.stay-duration {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  color: var(--text2);
-  margin-top: 2px;
-}
-.stay-duration svg { flex-shrink: 0; }
-.nights-pill {
-  background: var(--accent-bg);
-  color: var(--accent-txt);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 2px 9px;
-  border-radius: 20px;
-}
-/* booking status row */
-.status-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.card-divider { height: 1px; background: var(--border); margin: 0 0 0.9rem; }
+.date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.date-box { background: var(--surface2); border-radius: var(--radius-sm); padding: 9px 12px; }
+.date-box .dlabel { font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); margin-bottom: 3px; font-weight: 500; }
+.date-box .dval   { font-size: 0.9rem; font-weight: 600; color: var(--text1); }
+.stay-duration { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text2); margin-top: 2px; margin-bottom: 0; }
+.nights-pill { background: var(--accent-bg); color: var(--accent-txt); font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+.status-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding: 10px 12px; background: var(--surface2); border-radius: var(--radius-sm); }
+.status-row-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text2); }
+
+/* ── HINDI STATUS MESSAGE ─────────────────────────────────── */
+.hindi-msg-box {
   margin-top: 10px;
-  padding: 10px 12px;
-  background: var(--surface2);
+  padding: 12px 14px;
   border-radius: var(--radius-sm);
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--text1);
+  border-left: 3px solid var(--border2);
+  background: var(--bg);
 }
-.status-row-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text2);
-}
-/* not found */
+.hindi-msg-box.msg-confirmed  { background: #F0FDF4; border-color: #16a34a; color: #14532d; }
+.hindi-msg-box.msg-cancelled  { background: #FEF2F2; border-color: #dc2626; color: #7f1d1d; }
+.hindi-msg-box.msg-waitlist   { background: #F5F3FF; border-color: #7c3aed; color: #3b0764; }
+.hindi-msg-box.msg-pending    { background: #FFFBEB; border-color: #d97706; color: #451a03; }
+.hindi-msg-box.msg-other      { background: var(--bg); border-color: var(--border2); }
+
+/* ── NOT FOUND CARDS ──────────────────────────────────────── */
 .not-found-card {
   background: var(--surface);
   border: 1px solid #FECACA;
@@ -407,29 +433,28 @@ body {
   text-align: center;
   box-shadow: var(--shadow);
 }
-.not-found-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.not-found-icon  { font-size: 2rem; margin-bottom: 0.75rem; }
 .not-found-title { font-size: 1rem; font-weight: 600; color: var(--red); margin-bottom: 6px; }
-.not-found-sub { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
-.not-found-num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text1); }
-/* error */
-.error-card {
-  background: #FFF7ED;
-  border: 1px solid #FED7AA;
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  text-align: center;
-}
+.not-found-sub   { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
+.not-found-num   { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text1); }
+.error-card { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; }
 .error-card p { font-size: 0.875rem; color: #92400E; }
+
+/* hide/show utility */
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
-<!-- TEMPLE HEADER BAND -->
+
+<!-- TEMPLE HEADER -->
 <div class="temple-band">
-  <div class="temple-name">गीता भवन,ऋषिकेश</div>
-  <div class="temple-sub">Gita Bhawan,Rishikesh</div>
+  <div class="temple-name">गीता भवन, स्वर्गाश्रम ऋषिकेश</div>
+  <div class="temple-sub">Gita Bhawan, Swargashram, Rishikesh</div>
   <div class="divider-flowers"></div>
 </div>
+
 <div class="page-wrap">
+
   <!-- PAGE TITLE -->
   <div class="page-title-block">
     <div class="page-icon">
@@ -440,154 +465,396 @@ body {
       </svg>
     </div>
     <div class="page-title">Room Booking Status</div>
-    <div class="page-desc">Check your reservation using your registered mobile number</div>
+    <div class="page-desc">Verify your mobile number to view your booking</div>
   </div>
-  <!-- SEARCH CARD -->
-  <div class="search-card">
-    <label for="phoneInput">Registered Mobile Number</label>
-    <div class="input-row">
-      <div class="prefix">+91</div>
-      <input
-        type="tel"
-        id="phoneInput"
-        class="phone-input"
-        maxlength="10"
-        placeholder="Enter 10-digit number"
-        inputmode="numeric"
-        autocomplete="tel"
-      />
-      <button class="btn-check" id="checkBtn" onclick="checkBooking()">Check</button>
+
+  <!-- STEP INDICATOR -->
+  <div class="step-indicator" id="stepIndicator">
+    <div class="step-wrap">
+      <div class="step-dot active" id="stepDot1">1</div>
+      <div class="step-label active" id="stepLbl1">Mobile</div>
     </div>
-    <div class="err-msg" id="errMsg"></div>
-    <div class="auto-banner" id="autoBanner">↻ Auto-filled from your last session — checking now…</div>
-  </div>
-  <!-- STATE AREA -->
-  <div id="stateArea">
-    <div class="idle-state">
-      <div class="idle-icon"></div>
-      <div class="idle-title">look up your booking</div>
-      <div class="idle-sub">Enter the mobile number used while making the reservation and tap <strong>Check</strong>.</div>
+    <div class="step-line" id="stepLine1"></div>
+    <div class="step-wrap">
+      <div class="step-dot" id="stepDot2">2</div>
+      <div class="step-label" id="stepLbl2">OTP</div>
+    </div>
+    <div class="step-line" id="stepLine2"></div>
+    <div class="step-wrap">
+      <div class="step-dot" id="stepDot3">3</div>
+      <div class="step-label" id="stepLbl3">Booking</div>
     </div>
   </div>
+
+  <!-- ─── STEP 1: ENTER MOBILE ─── -->
+  <div id="step1Panel">
+    <div class="card">
+      <div class="card-title">Enter Mobile Number</div>
+      <div class="card-subtitle">We will send a 6-digit OTP to verify your identity before showing booking details.</div>
+      <label class="field-label" for="phoneInput">Registered Mobile Number</label>
+      <div class="input-row">
+        <div class="prefix">+91</div>
+        <input type="tel" id="phoneInput" class="text-input" maxlength="10" placeholder="Enter 10-digit number" inputmode="numeric" autocomplete="tel" />
+        <button class="btn-inline" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
+      </div>
+      <div class="err-msg" id="phoneErr"></div>
+    </div>
+  </div>
+
+  <!-- ─── STEP 2: ENTER OTP ─── -->
+  <div id="step2Panel" class="hidden">
+    <div class="card">
+      <div class="card-title">Enter OTP</div>
+      <div class="card-subtitle" id="otpSubtitle">A 6-digit OTP has been sent to your mobile number.</div>
+
+      <div class="otp-row" id="otpRow">
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" id="otp0" />
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" id="otp1" />
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" id="otp2" />
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" id="otp3" />
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" id="otp4" />
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" id="otp5" />
+      </div>
+
+      <div class="err-msg" id="otpErr"></div>
+      <div class="info-msg" id="otpInfo"></div>
+
+      <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOTP()">Verify &amp; View Booking</button>
+
+      <div class="timer-row">
+        <div class="timer-txt">OTP expires in <span id="timerDisplay">05:00</span></div>
+        <button class="btn-ghost" id="resendBtn" onclick="resendOTP()" disabled>Resend OTP</button>
+      </div>
+
+      <div style="margin-top:12px; text-align:center;">
+        <button class="btn-ghost" onclick="goBackToPhone()">← Change Number</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── STEP 3: BOOKING RESULTS ─── -->
+  <div id="step3Panel" class="hidden">
+    <div class="verified-banner">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#16a34a"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Mobile verified — showing bookings for <strong id="verifiedNum" style="margin-left:4px;font-family:'DM Mono',monospace;"></strong>
+    </div>
+    <div id="resultsArea">
+      <div class="loading-state"><div class="spinner"></div><p>Fetching booking records…</p></div>
+    </div>
+    <div style="text-align:center; margin-top:1rem;">
+      <button class="btn-ghost" onclick="resetAll()">← Start Over</button>
+    </div>
+  </div>
+
 </div><!-- /page-wrap -->
+
 <script>
 // ─────────────────────────────────────────────────────────────
-//  CONFIGURATION
+//  CONFIGURATION — Single Web App URL (OTP + Booking combined)
 // ─────────────────────────────────────────────────────────────
-var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzYOnTHx6vCEEJB9wPTLM0tYtZo2KuWBD2kC5G4yEhK3ZdeysRypYNdvcHFmQFWakmcxA/exec";
-var STORAGE_KEY = "bsc_last_phone";
-
-// Auto-fill on load
-window.addEventListener("DOMContentLoaded", function () {
-  var saved = localStorage.getItem(STORAGE_KEY);
-  var inp   = document.getElementById("phoneInput");
-  if (saved && /^[0-9]{10}$/.test(saved)) {
-    inp.value = saved;
-    document.getElementById("autoBanner").style.display = "block";
-    setTimeout(function () { checkBooking(true); }, 800);
-  }
-});
-
-document.getElementById("phoneInput").addEventListener("input", function () {
-  this.value = this.value.replace(/\D/g, "").slice(0, 10);
-});
-document.getElementById("phoneInput").addEventListener("keydown", function (e) {
-  if (e.key === "Enter") checkBooking();
-});
+var APP_URL = "https://script.google.com/macros/s/AKfycbwt3RRUUTnZQtHM0QkxWbeE5G6-J5BVy0V8lP7hWDZ9hv1lIamrXmbm8XdaYugP5Ed39Q/exec";
 
 // ─────────────────────────────────────────────────────────────
-//  HELPER: Check if a booking's departure is in the future
-//  Returns true  → show this booking (departure >= today)
-//  Returns false → hide this booking (departure < today)
+//  STATE
 // ─────────────────────────────────────────────────────────────
-function isFutureOrActiveBooking(booking) {
-  var depStr = (booking.departure || "").toString().trim();
-  if (!depStr || depStr === "—" || depStr === "-") {
-    // No departure date — show it to be safe
-    return true;
+var currentPhone  = "";
+var timerInterval = null;
+var timerSeconds  = 300; // 5 min
+
+// ─────────────────────────────────────────────────────────────
+//  HINDI STATUS MESSAGES
+// ─────────────────────────────────────────────────────────────
+var HINDI_MESSAGES = {
+  "cancel": {
+    hindi: "आपके द्वारा कार्यालय मे कमरा आरक्षण निरस्त (Cancel) करने हेतु कहा गया हैं इसलिए आपका आरक्षण निरस्त (Cancel) कर दिया गया है!",
+    cls: "msg-cancelled"
+  },
+  "cancelled": {
+    hindi: "आपके द्वारा कार्यालय मे कमरा आरक्षण निरस्त (Cancel) करने हेतु कहा गया हैं इसलिए आपका आरक्षण निरस्त (Cancel) कर दिया गया है!",
+    cls: "msg-cancelled"
+  },
+  "confirmed": {
+    hindi: "आपके कमरे का आरक्षण की पुष्टि हो गई है। सम्पूर्ण जानकारी आपको गीता भवन के व्हाट्सएप नंबर (8979516855) से मैसेज कर दिया गया है!",
+    cls: "msg-confirmed"
+  },
+  "confirm": {
+    hindi: "आपके कमरे का आरक्षण की पुष्टि हो गई है। सम्पूर्ण जानकारी आपको गीता भवन के व्हाट्सएप नंबर (8979516855) से मैसेज कर दिया गया है!",
+    cls: "msg-confirmed"
+  },
+  "duplicate": {
+    hindi: "आपके द्वारा दुबारा एक ही बुकिंग के लिए दोहरी प्रविष्टि अंकित किया गया है! इस समय आपकी पहले से की गयी बुकिंग हमारे कंप्यूटर प्रणाली में अंकित है! इस आधार पर आपके द्वारा पुनः समान बुकिंग को रद्द किया जाता है!",
+    cls: "msg-cancelled"
+  },
+  "pre arrival": {
+    hindi: "आपके कमरे का आरक्षण की पुष्टि हो गई है। बुकिंग से संबंधित भवन का आवंटन / चयन भी कर दिया गया है! सम्पूर्ण जानकारी आपको गीता भवन के व्हाट्सएप नंबर (8979516855) से मैसेज कर दिया गया है!",
+    cls: "msg-confirmed"
+  },
+  "pre-arrival": {
+    hindi: "आपके कमरे का आरक्षण की पुष्टि हो गई है। बुकिंग से संबंधित भवन का आवंटन / चयन भी कर दिया गया है! सम्पूर्ण जानकारी आपको गीता भवन के व्हाट्सएप नंबर (8979516855) से मैसेज कर दिया गया है!",
+    cls: "msg-confirmed"
+  },
+  "arrival": {
+    hindi: "आपके कमरे का आरक्षण की पुष्टि हो गई है। बुकिंग से संबंधित भवन और कमरा का आवंटन / चयन भी कर दिया गया है! सम्पूर्ण जानकारी आपको गीता भवन के व्हाट्सएप नंबर (8979516855) से मैसेज कर दिया गया है!",
+    cls: "msg-confirmed"
+  },
+  "rejected": {
+    hindi: "खेद है कि आपके द्वारा बताई गई तिथियों पर हमारे यहाँ कमरे उपलब्ध नहीं हैं, अतः आपका आरक्षण संभव नहीं हो सका।",
+    cls: "msg-cancelled"
+  },
+  "reject": {
+    hindi: "खेद है कि आपके द्वारा बताई गई तिथियों पर हमारे यहाँ कमरे उपलब्ध नहीं हैं, अतः आपका आरक्षण संभव नहीं हो सका।",
+    cls: "msg-cancelled"
+  },
+  "waiting": {
+    hindi: "वर्तमान में आपकी बुकिंग प्रतीक्षा सूची में है। यदि कमरा आरक्षित होता है, तो आपको तत्काल सूचित किया जाएगा। कृपया प्रतीक्षा करें!",
+    cls: "msg-waitlist"
+  },
+  "waitlist": {
+    hindi: "वर्तमान में आपकी बुकिंग प्रतीक्षा सूची में है। यदि कमरा आरक्षित होता है, तो आपको तत्काल सूचित किया जाएगा। कृपया प्रतीक्षा करें!",
+    cls: "msg-waitlist"
+  },
+  "waiting common hall": {
+    hindi: "गीता भवन के सभी कमरे अभी आरक्षित (फुल) हो गए हैं, जिनकी बुकिंग अभी तक कन्फर्म नहीं हुई हैं उनके लिए डॉरमेट्री हॉल में साझा आधार पर रहने की उत्तम व्यवस्था उपलब्ध है!\nनोट:- यदि आगे जैसे भवन मे कमरा अगर खाली हुआ तो उनको सुविधा अनुसार कमरे में आरक्षण/ट्रांसफर कर दिया जाएगा!",
+    cls: "msg-waitlist"
+  },
+  "information requested": {
+    hindi: "आपके द्वारा कमरा आरक्षण प्रार्थना-पत्र में सम्पूर्ण जानकारी नहीं है! कृपया आरक्षण प्रक्रिया को आगे बढ़ाने के लिए सभी विवरण साझा करें! सम्पूर्ण जानकारी आपको गीता भवन के व्हाट्सएप नंबर (8979516855) से मैसेज कर दिया गया है!",
+    cls: "msg-pending"
   }
+};
 
-  var depDate = new Date(depStr);
-  if (isNaN(depDate.getTime())) {
-    // Unparseable date — show it to be safe
-    return true;
+function getHindiMsg(status) {
+  var s = (status || "").trim().toLowerCase();
+  // Exact match first
+  if (HINDI_MESSAGES[s]) return HINDI_MESSAGES[s];
+  // Partial match
+  var keys = Object.keys(HINDI_MESSAGES);
+  for (var i = 0; i < keys.length; i++) {
+    if (s.indexOf(keys[i]) !== -1 || keys[i].indexOf(s) !== -1) {
+      return HINDI_MESSAGES[keys[i]];
+    }
   }
-
-  // Compare only the date part (strip time component from both)
-  var today = new Date();
-  today.setHours(0, 0, 0, 0);
-  depDate.setHours(0, 0, 0, 0);
-
-  // Show only if departure date is today or in the future
-  return depDate >= today;
+  return null;
 }
 
 // ─────────────────────────────────────────────────────────────
-//  MAIN CHECK FUNCTION
+//  OTP BOX — keyboard navigation
 // ─────────────────────────────────────────────────────────────
-function checkBooking(isAuto) {
+document.addEventListener("DOMContentLoaded", function () {
+  for (var i = 0; i < 6; i++) {
+    (function(idx) {
+      var box = document.getElementById("otp" + idx);
+      box.addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, "").slice(0, 1);
+        this.classList.toggle("filled", this.value !== "");
+        if (this.value && idx < 5) document.getElementById("otp" + (idx + 1)).focus();
+      });
+      box.addEventListener("keydown", function (e) {
+        if (e.key === "Backspace" && !this.value && idx > 0) {
+          document.getElementById("otp" + (idx - 1)).focus();
+        }
+        if (e.key === "Enter") verifyOTP();
+      });
+      box.addEventListener("paste", function (e) {
+        e.preventDefault();
+        var pasted = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "").slice(0, 6);
+        for (var j = 0; j < pasted.length; j++) {
+          var b = document.getElementById("otp" + j);
+          if (b) { b.value = pasted[j]; b.classList.add("filled"); }
+        }
+        var last = Math.min(pasted.length, 5);
+        document.getElementById("otp" + last).focus();
+      });
+    })(i);
+  }
+  document.getElementById("phoneInput").addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 10);
+  });
+  document.getElementById("phoneInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") sendOTP();
+  });
+});
+
+function getOTPValue() {
+  var val = "";
+  for (var i = 0; i < 6; i++) val += (document.getElementById("otp" + i).value || "");
+  return val;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  STEP 1 — SEND OTP
+// ─────────────────────────────────────────────────────────────
+function sendOTP() {
   var phone = document.getElementById("phoneInput").value.trim();
-  var errEl = document.getElementById("errMsg");
+  var errEl = document.getElementById("phoneErr");
   errEl.style.display = "none";
+
   if (!/^[0-9]{10}$/.test(phone)) {
-    errEl.textContent   = "Please enter a valid 10-digit mobile number.";
+    errEl.textContent = "Please enter a valid 10-digit mobile number.";
     errEl.style.display = "block";
     return;
   }
-  localStorage.setItem(STORAGE_KEY, phone);
-  if (WEB_APP_URL.indexOf("PASTE_") === 0) {
-    renderDemo(phone);
+
+  currentPhone = phone;
+  var btn = document.getElementById("sendOtpBtn");
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+
+  gasCall(APP_URL + "?action=sendOTP&mobile=" + encodeURIComponent(phone), function (data) {
+      btn.disabled = false;
+      btn.textContent = "Send OTP";
+      if (data.success) {
+        showStep2(phone);
+      } else {
+        errEl.textContent = data.message || "Failed to send OTP. Please try again.";
+        errEl.style.display = "block";
+      }
+    }, function () {
+      btn.disabled = false;
+      btn.textContent = "Send OTP";
+      errEl.textContent = "Request timed out. Please check your internet and try again.";
+      errEl.style.display = "block";
+    });
+}
+
+function showStep2(phone) {
+  document.getElementById("step1Panel").classList.add("hidden");
+  document.getElementById("step2Panel").classList.remove("hidden");
+  document.getElementById("otpSubtitle").textContent =
+    "A 6-digit OTP has been sent to +91 " + phone + ". It is valid for 5 minutes.";
+  document.getElementById("otp0").focus();
+  // Update step indicator
+  setStep(2);
+  startTimer();
+}
+
+// ─────────────────────────────────────────────────────────────
+//  STEP 2 — VERIFY OTP
+// ─────────────────────────────────────────────────────────────
+function verifyOTP() {
+  var otp   = getOTPValue();
+  var errEl = document.getElementById("otpErr");
+  var infEl = document.getElementById("otpInfo");
+  errEl.style.display = "none";
+  infEl.style.display = "none";
+
+  if (otp.length !== 6) {
+    errEl.textContent = "Please enter the complete 6-digit OTP.";
+    errEl.style.display = "block";
     return;
   }
-  showLoading();
-  document.getElementById("checkBtn").disabled = true;
-  fetch(WEB_APP_URL + "?phone=" + encodeURIComponent(phone))
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      document.getElementById("checkBtn").disabled = false;
-      if (!data.success) { showError(data.error || "Could not fetch booking data."); return; }
-      renderResults(phone, data);
-    })
-    .catch(function () {
-      document.getElementById("checkBtn").disabled = false;
-      showError("Network error. Please check your connection and try again.");
+
+  var btn = document.getElementById("verifyOtpBtn");
+  btn.disabled = true;
+  btn.textContent = "Verifying…";
+
+  gasCall(APP_URL + "?action=verifyOTP&mobile=" + encodeURIComponent(currentPhone) + "&otp=" + encodeURIComponent(otp), function (data) {
+      btn.disabled = false;
+      btn.textContent = "Verify & View Booking";
+      if (data.success) {
+        stopTimer();
+        showStep3();
+      } else {
+        errEl.textContent = data.message || "Invalid OTP. Please try again.";
+        errEl.style.display = "block";
+      }
+    }, function () {
+      btn.disabled = false;
+      btn.textContent = "Verify & View Booking";
+      errEl.textContent = "Request timed out. Please check your internet and try again.";
+      errEl.style.display = "block";
+    });
+}
+
+function resendOTP() {
+  var errEl = document.getElementById("otpErr");
+  var infEl = document.getElementById("otpInfo");
+  errEl.style.display = "none";
+  infEl.style.display = "none";
+
+  // Clear OTP boxes
+  for (var i = 0; i < 6; i++) {
+    var b = document.getElementById("otp" + i);
+    b.value = ""; b.classList.remove("filled");
+  }
+  document.getElementById("otp0").focus();
+
+  var resendBtn = document.getElementById("resendBtn");
+  resendBtn.disabled = true;
+
+  gasCall(APP_URL + "?action=sendOTP&mobile=" + encodeURIComponent(currentPhone), function (data) {
+      if (data.success) {
+        infEl.textContent = "OTP resent successfully to +91 " + currentPhone;
+        infEl.style.display = "block";
+        startTimer();
+      } else {
+        errEl.textContent = data.message || "Failed to resend OTP.";
+        errEl.style.display = "block";
+        resendBtn.disabled = false;
+      }
+    }, function () {
+      errEl.textContent = "Request timed out. Please check your internet and try again.";
+      errEl.style.display = "block";
+      resendBtn.disabled = false;
     });
 }
 
 // ─────────────────────────────────────────────────────────────
-//  RENDER FUNCTIONS
+//  STEP 3 — LOAD BOOKING DATA
 // ─────────────────────────────────────────────────────────────
-function showLoading() {
-  document.getElementById("stateArea").innerHTML =
-    '<div class="loading-state"><div class="spinner"></div><p>Searching booking records…</p></div>';
+function showStep3() {
+  document.getElementById("step2Panel").classList.add("hidden");
+  document.getElementById("step3Panel").classList.remove("hidden");
+  document.getElementById("verifiedNum").textContent = "+91 " + currentPhone;
+  setStep(3);
+
+  // Now fetch booking data
+  gasCall(APP_URL + "?action=booking&phone=" + encodeURIComponent(currentPhone), function (data) {
+      if (!data.success) {
+        showResultsError(data.error || "Could not fetch booking data.");
+        return;
+      }
+      renderResults(currentPhone, data);
+    }, function () {
+      showResultsError("Request timed out. Please check your internet and try again.");
+    });
 }
-function showError(msg) {
-  document.getElementById("stateArea").innerHTML =
+
+function showResultsError(msg) {
+  document.getElementById("resultsArea").innerHTML =
     '<div class="error-card"><p>⚠️ ' + escHtml(msg) + '</p></div>';
 }
 
+// ─────────────────────────────────────────────────────────────
+//  RENDER BOOKING RESULTS
+// ─────────────────────────────────────────────────────────────
+function isFutureOrActive(booking) {
+  var depStr = (booking.departure || "").toString().trim();
+  if (!depStr || depStr === "—" || depStr === "-") return true;
+  var depDate = new Date(depStr);
+  if (isNaN(depDate.getTime())) return true;
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  depDate.setHours(0, 0, 0, 0);
+  return depDate >= today;
+}
+
 function renderResults(phone, data) {
-  // Merge all bookings from all sources into a single flat list
   var allBookings = [];
   (data.messagesToSend || []).forEach(function(b) { allBookings.push(b); });
   (data.callCentre     || []).forEach(function(b) { allBookings.push(b); });
   (data.whatsapp       || []).forEach(function(b) { allBookings.push(b); });
 
-  // ── KEY CHANGE: Filter out bookings whose departure date has already passed ──
-  var upcomingBookings = allBookings.filter(function(b) {
-    return isFutureOrActiveBooking(b);
-  });
+  var upcoming = allBookings.filter(isFutureOrActive);
 
-  if (upcomingBookings.length === 0) {
-    // Check if there were bookings at all (to show a more helpful message)
-    var hadPastBookings = allBookings.length > 0;
-    document.getElementById("stateArea").innerHTML =
+  if (upcoming.length === 0) {
+    var hadPast = allBookings.length > 0;
+    document.getElementById("resultsArea").innerHTML =
       '<div class="not-found-card">' +
         '<div class="not-found-icon">🔍</div>' +
-        '<div class="not-found-title">' + (hadPastBookings ? 'No Upcoming Bookings' : 'No Booking Found') + '</div>' +
+        '<div class="not-found-title">' + (hadPast ? 'No Upcoming Bookings' : 'No Booking Found') + '</div>' +
         '<div class="not-found-sub">' +
-          (hadPastBookings
-            ? 'All reservations linked to <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span> have already checked out.<br>For a new reservation, click on this link <a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" style="color:#B5451B;font-weight:600;text-decoration:underline;">Book Now</a>.'
+          (hadPast
+            ? 'All reservations for <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span> have already checked out.<br>For a new reservation, click on this link <a href="https://cloudhostadmin.github.io/GitaBhawan_Bookings/" target="_blank" rel="noopener noreferrer" style="color:#B5451B;font-weight:600;text-decoration:underline;">Book Now</a>.'
             : 'No reservation is linked to <span class="not-found-num">+91&nbsp;' + escHtml(phone) + '</span>.<br>Please verify the number and try again, or contact the front desk.'
           ) +
         '</div>' +
@@ -595,33 +862,32 @@ function renderResults(phone, data) {
     return;
   }
 
-  var total = upcomingBookings.length;
+  var total = upcoming.length;
   var html  = '<div class="results-meta">' +
-    '<div class="found-label">Found <strong>' + total + '&nbsp;upcoming booking' + (total > 1 ? 's' : '') + '</strong> for +91&nbsp;' + escHtml(phone) + '</div>' +
-    '<button class="btn-reset" onclick="resetPage()">✕&nbsp;Clear</button>' +
+    '<div class="found-label">Found <strong>' + total + '&nbsp;upcoming booking' + (total > 1 ? 's' : '') + '</strong></div>' +
     '</div>';
 
-  upcomingBookings.forEach(function(b) { html += renderCard(b); });
-  document.getElementById("stateArea").innerHTML = html;
+  upcoming.forEach(function(b) { html += renderCard(b); });
+  document.getElementById("resultsArea").innerHTML = html;
 }
 
 function renderCard(b) {
-  var status     = (b.status || "").trim();
-  var statusLow  = status.toLowerCase();
-  var cls        = cardStatusClass(statusLow);
-  var badgeCls   = badgeClass(statusLow);
-  var displayStatus = status || "Unknown";
+  var status    = (b.status || "").trim();
+  // ── Blank status → treat as Pending ──
+  if (!status) status = "Pending";
+  var statusLow = status.toLowerCase();
+  var cls       = cardStatusClass(statusLow);
+  var badgeCls  = badgeClass(statusLow);
+  var displayStatus = status;
 
-  // Reference number — show only when available
   var refHtml;
   var refVal = (b.ref || "").toString().trim();
-  if (refVal && refVal !== "" && refVal !== "—" && refVal !== "-") {
+  if (refVal && refVal !== "" && refVal !== "\u2014" && refVal !== "-") {
     refHtml = '<span class="ref-label">Ref</span><span class="ref-value">' + escHtml(refVal) + '</span>';
   } else {
     refHtml = '<span class="ref-label">Ref</span><span class="ref-value ref-na">Not assigned</span>';
   }
 
-  // Stay duration
   var nightsHtml = "";
   var arrDate = b.arrival   ? new Date(b.arrival)   : null;
   var depDate = b.departure ? new Date(b.departure) : null;
@@ -632,6 +898,16 @@ function renderCard(b) {
         '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 13V5a1 1 0 011-1h10a1 1 0 011 1v8" stroke="#9C9288" stroke-width="1.3" stroke-linecap="round"/><path d="M1 13h14" stroke="#9C9288" stroke-width="1.3" stroke-linecap="round"/><path d="M6 12V8h4v4" stroke="#9C9288" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
         '<span>Duration</span>' +
         '<span class="nights-pill">' + nights + '&nbsp;night' + (nights > 1 ? 's' : '') + '</span>' +
+      '</div>';
+  }
+
+  // Hindi message
+  var hindiData = getHindiMsg(status);
+  var hindiHtml = "";
+  if (hindiData) {
+    hindiHtml =
+      '<div class="hindi-msg-box ' + hindiData.cls + '">' +
+        hindiData.hindi.replace(/\n/g, "<br>") +
       '</div>';
   }
 
@@ -653,83 +929,153 @@ function renderCard(b) {
         '<span class="status-row-label">Booking Status</span>' +
         '<span class="badge ' + badgeCls + '">' + escHtml(displayStatus) + '</span>' +
       '</div>' +
+      hindiHtml +
     '</div>' +
   '</div>';
 }
 
 // ─────────────────────────────────────────────────────────────
-//  DEMO MODE
+//  TIMER
 // ─────────────────────────────────────────────────────────────
-function renderDemo(phone) {
-  var lastDigit = parseInt(phone.slice(-1));
-  var found     = lastDigit % 2 !== 0;
+function startTimer() {
+  stopTimer();
+  timerSeconds = 300;
+  document.getElementById("resendBtn").disabled = true;
+  updateTimerDisplay();
+  timerInterval = setInterval(function () {
+    timerSeconds--;
+    updateTimerDisplay();
+    if (timerSeconds <= 0) {
+      stopTimer();
+      document.getElementById("resendBtn").disabled = false;
+      document.getElementById("timerDisplay").textContent = "Expired";
+    }
+  }, 1000);
+}
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+function updateTimerDisplay() {
+  var m = Math.floor(timerSeconds / 60);
+  var s = timerSeconds % 60;
+  document.getElementById("timerDisplay").textContent =
+    (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+}
 
-  // Demo uses future dates so they pass the filter
-  var today     = new Date();
-  var arr1      = new Date(today); arr1.setDate(today.getDate() + 10);
-  var dep1      = new Date(today); dep1.setDate(today.getDate() + 13);
-  var arr2      = new Date(today); arr2.setDate(today.getDate() + 30);
-  var dep2      = new Date(today); dep2.setDate(today.getDate() + 32);
-
-  function isoDate(d) {
-    return d.getFullYear() + "-" + pad2(d.getMonth()+1) + "-" + pad2(d.getDate());
+// ─────────────────────────────────────────────────────────────
+//  STEP INDICATOR
+// ─────────────────────────────────────────────────────────────
+function setStep(n) {
+  for (var i = 1; i <= 3; i++) {
+    var dot = document.getElementById("stepDot" + i);
+    var lbl = document.getElementById("stepLbl" + i);
+    dot.className = "step-dot" + (i < n ? " done" : (i === n ? " active" : ""));
+    lbl.className = "step-label" + (i < n ? " done" : (i === n ? " active" : ""));
+    dot.textContent = i < n ? "✓" : i;
   }
-  function pad2(n) { return n < 10 ? "0"+n : n; }
-
-  var fakeData  = {
-    success       : true,
-    messagesToSend: found ? [{ ref: "GB-" + phone.slice(-4), name: "Ramesh Kumar", arrival: isoDate(arr1), departure: isoDate(dep1), status: "Confirmed" }] : [],
-    callCentre    : found ? [{ ref: "",                       name: "Ramesh Kumar", arrival: isoDate(arr2), departure: isoDate(dep2), status: "Waitlist"  }] : [],
-    whatsapp      : []
-  };
-  renderResults(phone, fakeData);
-  var firstCard = document.querySelector(".booking-card");
-  if (firstCard) {
-    var notice = document.createElement("div");
-    notice.style.cssText = "background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;font-size:0.8rem;color:#92400E;margin-bottom:12px;";
-    notice.textContent = "⚠️ Demo mode: paste your Web App URL in WEB_APP_URL to connect real data.";
-    document.getElementById("stateArea").insertBefore(notice, document.querySelector(".results-meta").nextSibling);
+  if (n > 1) {
+    var l1 = document.getElementById("stepLine1");
+    if (l1) l1.className = "step-line" + (n > 1 ? " done" : "");
   }
+  if (n > 2) {
+    var l2 = document.getElementById("stepLine2");
+    if (l2) l2.className = "step-line" + (n > 2 ? " done" : "");
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  NAVIGATION HELPERS
+// ─────────────────────────────────────────────────────────────
+function goBackToPhone() {
+  stopTimer();
+  document.getElementById("step2Panel").classList.add("hidden");
+  document.getElementById("step1Panel").classList.remove("hidden");
+  document.getElementById("phoneErr").style.display = "none";
+  setStep(1);
+  for (var i = 0; i < 6; i++) {
+    var b = document.getElementById("otp" + i);
+    b.value = ""; b.classList.remove("filled");
+  }
+}
+function resetAll() {
+  stopTimer();
+  currentPhone = "";
+  document.getElementById("phoneInput").value = "";
+  document.getElementById("phoneErr").style.display = "none";
+  for (var i = 0; i < 6; i++) {
+    var b = document.getElementById("otp" + i);
+    b.value = ""; b.classList.remove("filled");
+  }
+  document.getElementById("otpErr").style.display  = "none";
+  document.getElementById("otpInfo").style.display = "none";
+  document.getElementById("step2Panel").classList.add("hidden");
+  document.getElementById("step3Panel").classList.add("hidden");
+  document.getElementById("step1Panel").classList.remove("hidden");
+  document.getElementById("resultsArea").innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Fetching booking records…</p></div>';
+  setStep(1);
+}
+
+// ─────────────────────────────────────────────────────────────
+//  gasCall — fetch wrapper for Google Apps Script
+//  GAS web apps issue a 302 redirect before responding.
+//  fetch() with redirect:'follow' handles this automatically.
+//  A 60s timeout is set since sheet reads can be slow.
+// ─────────────────────────────────────────────────────────────
+function gasCall(url, onSuccess, onError) {
+  var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  var timer = setTimeout(function () {
+    if (controller) controller.abort();
+    console.warn("gasCall timed out:", url);
+    if (onError) onError();
+  }, 60000);
+
+  var opts = { redirect: "follow", mode: "cors" };
+  if (controller) opts.signal = controller.signal;
+
+  fetch(url, opts)
+    .then(function (res) {
+      clearTimeout(timer);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.text();
+    })
+    .then(function (text) {
+      var data = JSON.parse(text.trim());
+      onSuccess(data);
+    })
+    .catch(function (err) {
+      clearTimeout(timer);
+      if (err && err.name === "AbortError") return; // already handled above
+      console.error("gasCall error:", err);
+      if (onError) onError();
+    });
 }
 
 // ─────────────────────────────────────────────────────────────
 //  HELPERS
 // ─────────────────────────────────────────────────────────────
-function resetPage() {
-  document.getElementById("phoneInput").value            = "";
-  document.getElementById("autoBanner").style.display   = "none";
-  localStorage.removeItem(STORAGE_KEY);
-  document.getElementById("stateArea").innerHTML =
-    '<div class="idle-state">' +
-      '<div class="idle-icon"></div>' +
-    '</div>';
-}
 function cardStatusClass(s) {
-  if (s.includes("confirm") || s.includes("success") || s.includes("approved")) return "status-confirmed";
-  if (s.includes("cancel")  || s.includes("reject")  || s.includes("declined")) return "status-cancelled";
-  if (s.includes("wait"))                                                         return "status-waitlist";
-  if (s.includes("pending") || s.includes("process"))                            return "status-pending";
+  if (s.includes("confirm") || s.includes("success") || s.includes("approved") || s.includes("arrival")) return "status-confirmed";
+  if (s.includes("cancel")  || s.includes("reject")  || s.includes("declined") || s.includes("duplicate")) return "status-cancelled";
+  if (s.includes("wait"))  return "status-waitlist";
+  if (s.includes("pending") || s.includes("process") || s.includes("information")) return "status-pending";
   return "status-other";
 }
 function badgeClass(s) {
-  if (s.includes("confirm") || s.includes("success") || s.includes("approved")) return "badge-confirmed";
-  if (s.includes("cancel")  || s.includes("reject")  || s.includes("declined")) return "badge-cancelled";
-  if (s.includes("wait"))                                                         return "badge-waitlist";
-  if (s.includes("pending") || s.includes("process"))                            return "badge-pending";
+  if (s.includes("confirm") || s.includes("success") || s.includes("approved") || s.includes("arrival")) return "badge-confirmed";
+  if (s.includes("cancel")  || s.includes("reject")  || s.includes("declined") || s.includes("duplicate")) return "badge-cancelled";
+  if (s.includes("wait"))  return "badge-waitlist";
+  if (s.includes("pending") || s.includes("process") || s.includes("information")) return "badge-pending";
   return "badge-other";
 }
 function fmtDate(d) {
-  if (!d) return "—";
+  if (!d) return "\u2014";
   var p = new Date(d);
   if (isNaN(p)) return d;
   return p.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
 function escHtml(str) {
   return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 </script>
 </body>

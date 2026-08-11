@@ -4,6 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Room Booking Status — गीता भवन</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/cloudhostadmin/GitaBhawan_Bookings/main/logo1.png">
+<script>
+    // Redirect old GitHub Pages visitors to the new domain.
+    // Only fires on the github.io hostname, so it does NOT loop when
+    // Cloudflare's Worker fetches this same file to serve on gitabhawan.org.
+    if (window.location.hostname.endsWith('github.io')) {
+        window.location.replace('https://gitabhawan.org/roombooking-status' + window.location.search);
+    }
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>

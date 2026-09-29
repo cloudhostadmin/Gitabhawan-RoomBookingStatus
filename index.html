@@ -917,6 +917,7 @@ function sendOTP() {
       btn.textContent = "Send OTP";
       if (data.success) {
         showStep2(phone);
+        prefetchBookings(phone);
       } else {
         errEl.textContent = data.message || "Failed to send OTP. Please try again.";
         errEl.style.display = "block";
@@ -927,6 +928,13 @@ function sendOTP() {
       errEl.textContent = "Request timed out. Please check your internet and try again.";
       errEl.style.display = "block";
     });
+}
+
+// Starts the booking lookup on the server while the guest types the OTP.
+// Nothing is returned to the browser — bookings are only released after OTP verification.
+function prefetchBookings(phone) {
+  gasCall(APP_URL + "?action=prefetch&mobile=" + encodeURIComponent(phone),
+    function () {}, function () {});
 }
 
 function showStep2(phone) {
@@ -1000,6 +1008,7 @@ function resendOTP() {
         infEl.textContent = "OTP resent successfully to +91 " + currentPhone;
         infEl.style.display = "block";
         startTimer();
+        prefetchBookings(currentPhone);
       } else {
         errEl.textContent = data.message || "Failed to resend OTP.";
         errEl.style.display = "block";

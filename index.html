@@ -539,6 +539,113 @@ body {
   transition: background 0.15s;
 }
 .book-now-link:hover { background: #8B3214; }
+
+/* ── BOOKING ACTIONS (cancel / date change) ──────────────── */
+.card-actions { display: flex; gap: 8px; margin-top: 12px; }
+.btn-action {
+  flex: 1;
+  min-height: 42px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.25;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-action small { display: block; font-family: 'Noto Serif Devanagari', serif; font-weight: 400; font-size: 0.74rem; opacity: 0.85; }
+.btn-date   { background: var(--surface); color: var(--accent-txt); border: 1.5px solid rgba(181,69,27,0.35); }
+.btn-date:hover { background: var(--accent-bg); }
+.btn-cancel { background: var(--surface); color: var(--red); border: 1.5px solid #FCA5A5; }
+.btn-cancel:hover { background: var(--red-bg); }
+.btn-action:focus-visible, .btn-primary:focus-visible, .reason-opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.pending-box {
+  margin-top: 12px;
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  background: var(--amber-bg);
+  border: 1px solid #FCD34D;
+  font-size: 0.82rem;
+  color: var(--amber);
+  line-height: 1.55;
+}
+.pending-box strong { color: #78350F; }
+.pending-box .hi { font-family: 'Noto Serif Devanagari', serif; display: block; margin-top: 4px; }
+.no-ref-note { margin-top: 10px; font-size: 0.78rem; color: var(--text3); }
+
+/* ── SHEET (modal) ───────────────────────────────────────── */
+.sheet-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(26,22,18,0.45);
+  display: flex; align-items: flex-end; justify-content: center;
+  z-index: 50;
+  padding: 0;
+}
+.sheet {
+  background: var(--surface);
+  width: 100%; max-width: 540px;
+  max-height: 92vh; overflow-y: auto;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 1.3rem 1.3rem calc(1.3rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+  animation: sheetUp 0.22s ease;
+}
+@media (min-width: 600px) {
+  .sheet-backdrop { align-items: center; padding: 1rem; }
+  .sheet { border-radius: var(--radius-lg); }
+}
+@keyframes sheetUp { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sheet, .booking-card { animation: none; } }
+.sheet-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 0.9rem; }
+.sheet-title { font-size: 1.05rem; font-weight: 600; }
+.sheet-title .hi { display: block; font-family: 'Noto Serif Devanagari', serif; font-size: 0.85rem; font-weight: 400; color: var(--text2); }
+.sheet-close { background: var(--surface2); border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; color: var(--text2); flex-shrink: 0; }
+.sheet-booking { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 0.82rem; color: var(--text2); margin-bottom: 1rem; line-height: 1.6; }
+.sheet-booking strong { color: var(--text1); }
+.form-group { margin-bottom: 1rem; }
+.form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text1); margin-bottom: 6px; }
+.form-label .hi { font-family: 'Noto Serif Devanagari', serif; font-weight: 400; color: var(--text2); }
+.date-input, .text-area {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text1);
+  background: var(--surface);
+  outline: none;
+}
+.date-input { height: 46px; }
+.text-area { min-height: 76px; resize: vertical; }
+.date-input:focus, .text-area:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(181,69,27,0.12); }
+.date-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.reason-list { display: flex; flex-direction: column; gap: 6px; }
+.reason-opt { display: block; cursor: pointer; }
+.reason-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.reason-opt span {
+  display: block;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  color: var(--text1);
+  transition: border-color 0.12s, background 0.12s;
+}
+.reason-opt span .hi { font-family: 'Noto Serif Devanagari', serif; color: var(--text2); font-size: 0.8rem; margin-left: 4px; }
+.reason-opt input:checked + span { border-color: var(--accent); background: var(--accent-bg); }
+.sheet-note { font-size: 0.78rem; color: var(--text2); line-height: 1.55; margin-bottom: 0.4rem; }
+.sheet-note.hi { font-family: 'Noto Serif Devanagari', serif; }
+.btn-danger { background: #B91C1C; }
+.btn-danger:hover { background: #991B1B; }
+.sheet-success { text-align: center; padding: 0.8rem 0.2rem 0.3rem; }
+.sheet-success .ok-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--green-bg); color: var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.8rem; font-size: 1.5rem; }
+.sheet-success h3 { font-size: 1rem; margin-bottom: 6px; }
+.sheet-success p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+.sheet-success p.hi { font-family: 'Noto Serif Devanagari', serif; margin-top: 6px; }
+.req-id { font-family: 'DM Mono', monospace; background: var(--surface2); padding: 2px 8px; border-radius: 4px; color: var(--text1); }
 </style>
 </head>
 <body>
@@ -645,6 +752,11 @@ body {
 
 </div><!-- /page-wrap -->
 
+<!-- CHANGE REQUEST SHEET -->
+<div class="sheet-backdrop hidden" id="sheetBackdrop" onclick="if(event.target===this) closeSheet()">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheetBox"></div>
+</div>
+
 <script>
 // ─────────────────────────────────────────────────────────────
 //  CONFIGURATION — Single Web App URL (OTP + Booking combined)
@@ -655,6 +767,9 @@ var APP_URL = "https://script.google.com/macros/s/AKfycbxM6nlmlOBhqW5lVjDMSd8rVG
 //  STATE
 // ─────────────────────────────────────────────────────────────
 var currentPhone  = "";
+var sessionToken  = "";   // issued by server after OTP verification
+var shownBookings = [];   // bookings currently rendered (index = card id)
+var activeIdx     = -1;   // booking open in the sheet
 var timerInterval = null;
 var timerSeconds  = 300; // 5 min
 
@@ -850,7 +965,8 @@ function verifyOTP() {
       btn.textContent = "Verify & View Booking";
       if (data.success) {
         stopTimer();
-        showStep3();
+        sessionToken = data.token || "";
+        showStep3(data);
       } else {
         errEl.textContent = data.message || "Invalid OTP. Please try again.";
         errEl.style.display = "block";
@@ -899,22 +1015,41 @@ function resendOTP() {
 // ─────────────────────────────────────────────────────────────
 //  STEP 3 — LOAD BOOKING DATA
 // ─────────────────────────────────────────────────────────────
-function showStep3() {
+function showStep3(data) {
   document.getElementById("step2Panel").classList.add("hidden");
   document.getElementById("step3Panel").classList.remove("hidden");
   document.getElementById("verifiedNum").textContent = "+91 " + currentPhone;
   setStep(3);
 
-  // Now fetch booking data
-  gasCall(APP_URL + "?action=booking&phone=" + encodeURIComponent(currentPhone), function (data) {
+  // Bookings arrive together with the OTP verification response —
+  // no second round trip to the server.
+  if (data && (data.messagesToSend || data.callCentre || data.whatsapp)) {
+    renderResults(currentPhone, data);
+    return;
+  }
+  refreshBookings();
+}
+
+function refreshBookings() {
+  document.getElementById("resultsArea").innerHTML =
+    '<div class="loading-state"><div class="spinner"></div><p>Fetching booking records…</p></div>';
+  gasCall(APP_URL + "?action=booking&token=" + encodeURIComponent(sessionToken), function (data) {
+      if (data.sessionExpired) { showSessionExpired(); return; }
       if (!data.success) {
-        showResultsError(data.error || "Could not fetch booking data.");
+        showResultsError(data.message || "Could not fetch booking data.");
         return;
       }
       renderResults(currentPhone, data);
     }, function () {
       showResultsError("Request timed out. Please check your internet and try again.");
     });
+}
+
+function showSessionExpired() {
+  closeSheet();
+  document.getElementById("resultsArea").innerHTML =
+    '<div class="error-card"><p>Your session has expired for security. Please verify your mobile number again.</p>' +
+    '<button class="btn-primary" style="margin-top:12px" onclick="resetAll()">Verify again</button></div>';
 }
 
 function showResultsError(msg) {
@@ -964,11 +1099,12 @@ function renderResults(phone, data) {
     '<div class="found-label">Found <strong>' + total + '&nbsp;upcoming booking' + (total > 1 ? 's' : '') + '</strong></div>' +
     '</div>';
 
-  upcoming.forEach(function(b) { html += renderCard(b); });
+  shownBookings = upcoming;
+  upcoming.forEach(function(b, i) { html += renderCard(b, i); });
   document.getElementById("resultsArea").innerHTML = html;
 }
 
-function renderCard(b) {
+function renderCard(b, idx) {
   var status    = (b.status || "").trim();
   // ── Blank status → treat as Pending ──
   if (!status) status = "Pending";
@@ -1027,8 +1163,228 @@ function renderCard(b) {
         '<span class="badge ' + badgeCls + '">' + escHtml(displayStatus) + '</span>' +
       '</div>' +
       hindiHtml +
+      renderActions(b, idx, statusLow, refVal) +
     '</div>' +
   '</div>';
+}
+
+// ─────────────────────────────────────────────────────────────
+//  CANCEL / DATE CHANGE — card actions
+// ─────────────────────────────────────────────────────────────
+function canRequestChange(statusLow) {
+  return !(statusLow.includes("cancel") || statusLow.includes("reject") ||
+           statusLow.includes("declined") || statusLow.includes("duplicate"));
+}
+
+function renderActions(b, idx, statusLow, refVal) {
+  if (!canRequestChange(statusLow)) return "";
+
+  if (b.pendingRequest) {
+    var pr = b.pendingRequest;
+    var isCancel = (pr.type || "").toLowerCase().indexOf("cancel") !== -1;
+    var detail = isCancel ? "Cancellation request" :
+      "Date change request (" + fmtDate(pr.newArrival) + " – " + fmtDate(pr.newDeparture) + ")";
+    return '<div class="pending-box">' +
+      '<strong>' + escHtml(detail) + '</strong> is under review. Request ID <span class="req-id">' + escHtml(pr.requestId || "") + '</span>' +
+      '<span class="hi">' + (isCancel ? 'आपका रद्द करने का अनुरोध' : 'आपका तिथि बदलने का अनुरोध') +
+      ' प्राप्त हो गया है। कार्यालय द्वारा पुष्टि के बाद आपको व्हाट्सएप पर सूचित किया जाएगा।</span>' +
+    '</div>';
+  }
+
+  if (!refVal || refVal === "-" || refVal === "\u2014") {
+    return '<div class="no-ref-note">To cancel or change dates for this booking, please contact the Gita Bhawan office on WhatsApp (8979516855).</div>';
+  }
+
+  return '<div class="card-actions">' +
+    '<button class="btn-action btn-date" onclick="openSheet(' + idx + ',\'datechange\')">Change dates<small>तिथि बदलें</small></button>' +
+    '<button class="btn-action btn-cancel" onclick="openSheet(' + idx + ',\'cancel\')">Cancel booking<small>बुकिंग रद्द करें</small></button>' +
+  '</div>';
+}
+
+var CANCEL_REASONS = [
+  { en: "Change of travel plans",       hi: "यात्रा योजना बदल गई" },
+  { en: "Health / medical reason",      hi: "स्वास्थ्य कारण" },
+  { en: "Family emergency",             hi: "पारिवारिक आपात स्थिति" },
+  { en: "Train / flight ticket issue",  hi: "टिकट की समस्या" },
+  { en: "Staying elsewhere",            hi: "अन्य स्थान पर ठहरेंगे" },
+  { en: "Booked twice by mistake",      hi: "गलती से दो बार बुकिंग" },
+  { en: "Other",                        hi: "अन्य" }
+];
+
+function isoToday() {
+  var d = new Date();
+  return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+}
+function isIso(s) { return /^\d{4}-\d{2}-\d{2}$/.test(s || ""); }
+
+function openSheet(idx, type) {
+  var b = shownBookings[idx];
+  if (!b) return;
+  activeIdx = idx;
+
+  var summary =
+    '<div class="sheet-booking">' +
+      '<strong>' + escHtml(b.name || "\u2014") + '</strong> &nbsp;<span class="req-id">' + escHtml(b.ref) + '</span><br>' +
+      'Current stay: <strong>' + fmtDate(b.arrival) + '</strong> to <strong>' + fmtDate(b.departure) + '</strong>' +
+    '</div>';
+
+  var html;
+  if (type === "datechange") {
+    var arrMin = isoToday();
+    html =
+      '<div class="sheet-head">' +
+        '<div class="sheet-title" id="sheetTitle">Change dates<span class="hi">तिथि बदलने का अनुरोध</span></div>' +
+        '<button class="sheet-close" onclick="closeSheet()" aria-label="Close">✕</button>' +
+      '</div>' + summary +
+      '<div class="form-group">' +
+        '<div class="date-pair">' +
+          '<div><label class="form-label" for="newArr">New arrival <span class="hi">आगमन</span></label>' +
+            '<input type="date" id="newArr" class="date-input" min="' + arrMin + '" value="' + (isIso(b.arrival) && b.arrival >= arrMin ? b.arrival : "") + '" onchange="syncDepMin()"></div>' +
+          '<div><label class="form-label" for="newDep">New departure <span class="hi">प्रस्थान</span></label>' +
+            '<input type="date" id="newDep" class="date-input" min="' + arrMin + '" value="' + (isIso(b.departure) && b.departure > arrMin ? b.departure : "") + '" onchange="showNewNights()"></div>' +
+        '</div>' +
+        '<div class="stay-duration" id="newNights" style="margin-top:8px"></div>' +
+      '</div>' +
+      '<div class="form-group">' +
+        '<label class="form-label" for="reqRemarks">Anything else? <span class="hi">(वैकल्पिक)</span></label>' +
+        '<textarea id="reqRemarks" class="text-area" maxlength="500" placeholder="e.g. arriving by evening train, number of guests changed"></textarea>' +
+      '</div>' +
+      '<p class="sheet-note">New dates depend on room availability. The office will confirm on WhatsApp.</p>' +
+      '<p class="sheet-note hi">नई तिथियाँ कमरों की उपलब्धता पर निर्भर हैं। पुष्टि व्हाट्सएप पर की जाएगी।</p>' +
+      '<div class="err-msg" id="sheetErr"></div>' +
+      '<button class="btn-primary" id="sheetSubmit" onclick="submitChange(\'datechange\')">Send date change request</button>';
+  } else {
+    var opts = CANCEL_REASONS.map(function (r, i) {
+      return '<label class="reason-opt"><input type="radio" name="cReason" value="' + i + '" onchange="toggleOther()">' +
+             '<span>' + r.en + '<span class="hi">' + r.hi + '</span></span></label>';
+    }).join("");
+    html =
+      '<div class="sheet-head">' +
+        '<div class="sheet-title" id="sheetTitle">Cancel booking<span class="hi">बुकिंग रद्द करने का अनुरोध</span></div>' +
+        '<button class="sheet-close" onclick="closeSheet()" aria-label="Close">✕</button>' +
+      '</div>' + summary +
+      '<div class="form-group">' +
+        '<div class="form-label">Reason for cancellation <span class="hi">रद्द करने का कारण</span></div>' +
+        '<div class="reason-list">' + opts + '</div>' +
+      '</div>' +
+      '<div class="form-group hidden" id="otherWrap">' +
+        '<label class="form-label" for="otherReason">Please tell us the reason <span class="hi">कृपया कारण लिखें</span></label>' +
+        '<textarea id="otherReason" class="text-area" maxlength="500"></textarea>' +
+      '</div>' +
+      '<p class="sheet-note">Your room will be released for other devotees once the office confirms.</p>' +
+      '<p class="sheet-note hi">कार्यालय की पुष्टि के बाद आपका कमरा अन्य श्रद्धालुओं के लिए उपलब्ध कर दिया जाएगा।</p>' +
+      '<div class="err-msg" id="sheetErr"></div>' +
+      '<button class="btn-primary btn-danger" id="sheetSubmit" onclick="submitChange(\'cancel\')">Send cancellation request</button>';
+  }
+
+  document.getElementById("sheetBox").innerHTML = html;
+  document.getElementById("sheetBackdrop").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  if (type === "datechange") showNewNights();
+}
+
+function closeSheet() {
+  document.getElementById("sheetBackdrop").classList.add("hidden");
+  document.getElementById("sheetBox").innerHTML = "";
+  document.body.style.overflow = "";
+  activeIdx = -1;
+}
+document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSheet(); });
+
+function syncDepMin() {
+  var a = document.getElementById("newArr").value;
+  var d = document.getElementById("newDep");
+  if (a) d.min = a;
+  if (a && d.value && d.value <= a) d.value = "";
+  showNewNights();
+}
+function showNewNights() {
+  var a = (document.getElementById("newArr") || {}).value;
+  var d = (document.getElementById("newDep") || {}).value;
+  var el = document.getElementById("newNights");
+  if (!el) return;
+  if (a && d && d > a) {
+    var n = Math.round((new Date(d) - new Date(a)) / 86400000);
+    el.innerHTML = '<span>New stay</span><span class="nights-pill">' + n + '&nbsp;night' + (n > 1 ? 's' : '') + '</span>';
+  } else {
+    el.innerHTML = "";
+  }
+}
+function toggleOther() {
+  var sel = document.querySelector('input[name="cReason"]:checked');
+  var isOther = sel && CANCEL_REASONS[+sel.value].en === "Other";
+  document.getElementById("otherWrap").classList.toggle("hidden", !isOther);
+  if (isOther) document.getElementById("otherReason").focus();
+}
+
+function sheetError(msg) {
+  var el = document.getElementById("sheetErr");
+  el.textContent = msg;
+  el.style.display = "block";
+}
+
+function submitChange(type) {
+  var b = shownBookings[activeIdx];
+  if (!b) return;
+  document.getElementById("sheetErr").style.display = "none";
+
+  var params = "&type=" + type + "&ref=" + encodeURIComponent(b.ref);
+
+  if (type === "datechange") {
+    var a = document.getElementById("newArr").value;
+    var d = document.getElementById("newDep").value;
+    if (!a || !d)      return sheetError("Please select both new arrival and departure dates.");
+    if (a < isoToday()) return sheetError("New arrival date cannot be in the past.");
+    if (d <= a)        return sheetError("Departure date must be after arrival date.");
+    if (a === b.arrival && d === b.departure) return sheetError("These are the same as your current dates.");
+    params += "&newArrival=" + a + "&newDeparture=" + d +
+              "&remarks=" + encodeURIComponent(document.getElementById("reqRemarks").value.trim());
+  } else {
+    var sel = document.querySelector('input[name="cReason"]:checked');
+    if (!sel) return sheetError("Please choose a reason for cancellation.");
+    var r = CANCEL_REASONS[+sel.value];
+    var reason = r.en;
+    if (r.en === "Other") {
+      reason = document.getElementById("otherReason").value.trim();
+      if (reason.length < 3) return sheetError("Please write the reason for cancellation.");
+      reason = "Other: " + reason;
+    }
+    params += "&reason=" + encodeURIComponent(reason);
+  }
+
+  var btn = document.getElementById("sheetSubmit");
+  var label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Sending request…";
+
+  gasCall(APP_URL + "?action=requestChange&token=" + encodeURIComponent(sessionToken) + params, function (data) {
+    if (data.sessionExpired) { showSessionExpired(); return; }
+    if (!data.success) {
+      btn.disabled = false;
+      btn.textContent = label;
+      sheetError(data.message || "Could not send the request. Please try again.");
+      return;
+    }
+    b.pendingRequest = data.pendingRequest || { requestId: data.requestId, type: type === "cancel" ? "Cancellation" : "Date Change" };
+    renderResults(currentPhone, { messagesToSend: shownBookings });   // redraw cards with pending state
+    showSheetSuccess(type, data.requestId);
+  }, function () {
+    btn.disabled = false;
+    btn.textContent = label;
+    sheetError("Request timed out. Please check your internet and try again.");
+  });
+}
+
+function showSheetSuccess(type, reqId) {
+  var isCancel = type === "cancel";
+  document.getElementById("sheetBox").innerHTML =
+    '<div class="sheet-success">' +
+      '<div class="ok-icon">✓</div>' +
+      '<h3>' + (isCancel ? 'Cancellation request sent' : 'Date change request sent') + '</h3>' +
+      '<p>Request ID <span class="req-id">' + escHtml(reqId || "") + '</span><br>The office will review it and message you on WhatsApp.</p>' +
+      '<p class="hi">आपका अनुरोध प्राप्त हो गया है। कार्यालय द्वारा समीक्षा के बाद आपको व्हाट्सएप पर सूचित किया जाएगा।</p>' +
+      '<button class="btn-primary" style="margin-top:14px" onclick="closeSheet()">Done</button>' +
+    '</div>';
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1096,7 +1452,10 @@ function goBackToPhone() {
 }
 function resetAll() {
   stopTimer();
-  currentPhone = "";
+  closeSheet();
+  currentPhone  = "";
+  sessionToken  = "";
+  shownBookings = [];
   document.getElementById("phoneInput").value = "";
   document.getElementById("phoneErr").style.display = "none";
   for (var i = 0; i < 6; i++) {

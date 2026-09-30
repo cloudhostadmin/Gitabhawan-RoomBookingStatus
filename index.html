@@ -1409,6 +1409,17 @@ function submitChange(type) {
 
   gasCall(APP_URL + "?action=requestChange&token=" + encodeURIComponent(sessionToken) + params, function (data) {
     if (data.sessionExpired) { showSessionExpired(); return; }
+    if (!data.success && data.alreadyRequested && data.request) {
+      // Server already has a request for this booking → update the card and show its status
+      b.request = data.request;
+      renderResults(currentPhone, { messagesToSend: shownBookings });
+      document.getElementById("sheetBox").innerHTML =
+        '<div class="sheet-head"><div class="sheet-title" id="sheetTitle">Request status<span class="hi">अनुरोध की स्थिति</span></div>' +
+        '<button class="sheet-close" onclick="closeSheet()" aria-label="Close">✕</button></div>' +
+        renderRequestStatus(data.request) +
+        '<button class="btn-primary" style="margin-top:14px" onclick="closeSheet()">OK</button>';
+      return;
+    }
     if (!data.success) {
       btn.disabled = false;
       btn.textContent = label;

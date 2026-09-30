@@ -571,7 +571,14 @@ body {
   color: var(--amber);
   line-height: 1.55;
 }
-.pending-box strong { color: #78350F; }
+.pending-box strong { color: #78350F; display: block; }
+.pending-box.req-ok { background: var(--green-bg); border-color: #86EFAC; color: var(--green); }
+.pending-box.req-ok strong { color: #14532D; }
+.pending-box.req-no { background: var(--red-bg); border-color: #FCA5A5; color: var(--red); }
+.pending-box.req-no strong { color: #7F1D1D; }
+.req-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.req-chip { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.req-note { margin-top: 8px; padding-top: 8px; border-top: 1px dashed currentColor; color: var(--text1); }
 .pending-box .hi { font-family: 'Noto Serif Devanagari', serif; display: block; margin-top: 4px; }
 .no-ref-note { margin-top: 10px; font-size: 0.78rem; color: var(--text3); }
 
@@ -1186,19 +1193,10 @@ function canRequestChange(statusLow) {
 }
 
 function renderActions(b, idx, statusLow, refVal) {
-  if (!canRequestChange(statusLow)) return "";
+  // A request already exists → show its status. Buttons never come back.
+  if (b.request) return renderRequestStatus(b.request);
 
-  if (b.pendingRequest) {
-    var pr = b.pendingRequest;
-    var isCancel = (pr.type || "").toLowerCase().indexOf("cancel") !== -1;
-    var detail = isCancel ? "Cancellation request" :
-      "Date change request (" + fmtDate(pr.newArrival) + " – " + fmtDate(pr.newDeparture) + ")";
-    return '<div class="pending-box">' +
-      '<strong>' + escHtml(detail) + '</strong> is under review. Request ID <span class="req-id">' + escHtml(pr.requestId || "") + '</span>' +
-      '<span class="hi">' + (isCancel ? 'आपका रद्द करने का अनुरोध' : 'आपका तिथि बदलने का अनुरोध') +
-      ' प्राप्त हो गया है। कार्यालय द्वारा पुष्टि के बाद आपको व्हाट्सएप पर सूचित किया जाएगा।</span>' +
-    '</div>';
-  }
+  if (!canRequestChange(statusLow)) return "";
 
   if (!refVal || refVal === "-" || refVal === "\u2014") {
     return '<div class="no-ref-note">To cancel or change dates for this booking, please contact the Gita Bhawan office on WhatsApp (8979516855).</div>';
@@ -1207,6 +1205,49 @@ function renderActions(b, idx, statusLow, refVal) {
   return '<div class="card-actions">' +
     '<button class="btn-action btn-date" onclick="openSheet(' + idx + ',\'datechange\')">Change dates<small>तिथि बदलें</small></button>' +
     '<button class="btn-action btn-cancel" onclick="openSheet(' + idx + ',\'cancel\')">Cancel booking<small>बुकिंग रद्द करें</small></button>' +
+  '</div>';
+}
+
+// Message shown on the card for each Request Status set by the office
+function renderRequestStatus(rq) {
+  var isCancel = (rq.type || "").toLowerCase().indexOf("cancel") !== -1;
+  var status   = rq.status || "Pending";
+  var dates    = fmtDate(rq.newArrival) + " – " + fmtDate(rq.newDeparture);
+  var en, hi, cls;
+
+  if (status === "Approved") {
+    cls = "req-ok";
+    en  = isCancel ? "Your cancellation request has been approved."
+                   : "Your date change request has been approved. New dates: " + dates;
+    hi  = isCancel ? "आपका बुकिंग रद्द करने का अनुरोध स्वीकृत हो गया है।"
+                   : "आपका तिथि बदलने का अनुरोध स्वीकृत हो गया है। नई तिथियाँ: " + dates;
+  } else if (status === "Done") {
+    cls = "req-ok";
+    en  = isCancel ? "Your booking has been cancelled."
+                   : "Your booking has been updated to the new dates: " + dates;
+    hi  = isCancel ? "आपकी बुकिंग रद्द कर दी गई है।"
+                   : "आपकी बुकिंग नई तिथियों पर अपडेट कर दी गई है: " + dates;
+  } else if (status === "Rejected") {
+    cls = "req-no";
+    en  = (isCancel ? "Your cancellation request" : "Your date change request") +
+          " could not be approved. For help, please contact the office on WhatsApp (8979516855).";
+    hi  = "क्षमा करें, आपका अनुरोध स्वीकार नहीं किया जा सका। सहायता के लिए कृपया कार्यालय से व्हाट्सएप (8979516855) पर संपर्क करें।";
+  } else {
+    cls = "req-wait";
+    en  = (isCancel ? "Your cancellation request" : "Your date change request (" + dates + ")") +
+          " is under review.";
+    hi  = (isCancel ? "आपका बुकिंग रद्द करने का अनुरोध" : "आपका तिथि बदलने का अनुरोध") +
+          " समीक्षा में है। निर्णय होने पर आपको व्हाट्सएप पर सूचित किया जाएगा।";
+  }
+
+  var labelHi = { Pending: "समीक्षा में", Approved: "स्वीकृत", Rejected: "अस्वीकृत", Done: "पूर्ण" }[status] || "";
+
+  return '<div class="pending-box ' + cls + '">' +
+    '<div class="req-top"><span class="req-chip">' + escHtml(status) + ' · ' + labelHi + '</span>' +
+      '<span class="req-id">' + escHtml(rq.requestId || "") + '</span></div>' +
+    '<strong>' + escHtml(en) + '</strong>' +
+    '<span class="hi">' + hi + '</span>' +
+    (rq.guestMessage ? '<div class="req-note"><b>Message from office / कार्यालय संदेश:</b> ' + escHtml(rq.guestMessage) + '</div>' : '') +
   '</div>';
 }
 
@@ -1374,7 +1415,8 @@ function submitChange(type) {
       sheetError(data.message || "Could not send the request. Please try again.");
       return;
     }
-    b.pendingRequest = data.pendingRequest || { requestId: data.requestId, type: type === "cancel" ? "Cancellation" : "Date Change" };
+    b.request = data.request || { requestId: data.requestId, status: "Pending",
+      type: type === "cancel" ? "Cancellation" : "Date Change" };
     renderResults(currentPhone, { messagesToSend: shownBookings });   // redraw cards with pending state
     showSheetSuccess(type, data.requestId);
   }, function () {
